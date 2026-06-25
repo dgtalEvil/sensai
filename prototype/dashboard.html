@@ -98,14 +98,176 @@
         white-space: nowrap;
       }
 
-      /* ── Filters — no box, just inline on page ── */
+      /* ── Filters — dropdown trigger style ── */
       .dash-filters {
         display: flex;
         align-items: center;
-        gap: 16px;
+        gap: 8px;
         flex-wrap: wrap;
-        padding: 20px 0 16px;
+        padding: 16px 0 14px;
         border-bottom: 1px solid var(--border);
+      }
+      .filter-divider {
+        width: 1px;
+        height: 20px;
+        background: var(--border);
+        flex-shrink: 0;
+        margin: 0 4px;
+      }
+
+      /* Dropdown trigger button */
+      .filter-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 10px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: transparent;
+        color: var(--muted-foreground);
+        font-size: 0.8125rem;
+        font-weight: 500;
+        font-family: "Space Grotesk", sans-serif;
+        cursor: pointer;
+        transition: all 0.15s;
+        position: relative;
+        white-space: nowrap;
+      }
+      .filter-btn:hover {
+        border-color: var(--primary);
+        color: var(--foreground);
+        background: rgba(124, 92, 255, 0.06);
+      }
+      .filter-btn.has-active {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: rgba(124, 92, 255, 0.08);
+      }
+      .filter-btn-label {
+        color: var(--muted-foreground);
+        font-size: 0.75rem;
+      }
+      .filter-btn.has-active .filter-btn-label {
+        color: var(--primary);
+        opacity: 0.7;
+      }
+      .filter-btn-value {
+        font-weight: 600;
+      }
+      .filter-btn-arrow {
+        font-size: 0.625rem;
+        opacity: 0.5;
+        transition: transform 0.15s;
+      }
+      .filter-btn.open .filter-btn-arrow {
+        transform: rotate(180deg);
+      }
+
+      /* Active dot indicator */
+      .filter-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--primary);
+        flex-shrink: 0;
+      }
+
+      /* Popover */
+      .filter-popover {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 6px;
+        min-width: 160px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+        backdrop-filter: blur(16px);
+        z-index: 200;
+        display: none;
+      }
+      .filter-popover.open {
+        display: block;
+        animation: dropdownIn 0.15s ease;
+      }
+      .filter-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: var(--foreground);
+        transition: background 0.1s;
+        font-family: "Space Grotesk", sans-serif;
+      }
+      .filter-option:hover {
+        background: var(--muted);
+      }
+      .filter-option.selected {
+        color: var(--primary);
+      }
+      .filter-option.selected .filter-check {
+        opacity: 1;
+      }
+      .filter-check {
+        width: 14px;
+        height: 14px;
+        border-radius: 4px;
+        border: 1.5px solid var(--border);
+        margin-left: auto;
+        opacity: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.625rem;
+        color: var(--primary);
+        transition: opacity 0.1s;
+        flex-shrink: 0;
+      }
+      .filter-option.selected .filter-check {
+        opacity: 1;
+        border-color: var(--primary);
+        background: rgba(124, 92, 255, 0.12);
+      }
+      .filter-option-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      /* Active filters summary pill */
+      .active-filters-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .active-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 3px 8px 3px 10px;
+        background: rgba(124, 92, 255, 0.1);
+        border: 1px solid rgba(124, 92, 255, 0.2);
+        border-radius: 99px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--primary);
+      }
+      .active-tag-remove {
+        cursor: pointer;
+        opacity: 0.6;
+        font-size: 0.625rem;
+        line-height: 1;
+        transition: opacity 0.15s;
+      }
+      .active-tag-remove:hover {
+        opacity: 1;
       }
 
       /* ── Category tabs — borderless, just a bottom line ── */
@@ -246,32 +408,193 @@
         </div>
       </div>
 
-      <!-- Filters — no box -->
+      <!-- Filters — dropdown trigger style -->
       <div class="dash-filters">
-        <div class="input-wrapper" style="min-width: 200px; max-width: 260px">
+        <!-- Search -->
+        <div class="input-wrapper" style="min-width: 180px; max-width: 240px">
           <span class="input-icon">🔍</span>
           <input
             type="text"
             id="problem-search"
             class="input"
-            placeholder="Search..."
+            placeholder="Search problems..."
           />
         </div>
-        <div class="filter-chips" data-filter-group="multi">
-          <button class="chip" data-value="easy">Easy</button>
-          <button class="chip" data-value="medium">Medium</button>
-          <button class="chip" data-value="hard">Hard</button>
+
+        <div class="filter-divider"></div>
+
+        <!-- Difficulty dropdown -->
+        <div style="position: relative">
+          <button
+            class="filter-btn"
+            id="diff-btn"
+            onclick="toggleFilterPopover('diff-popover', 'diff-btn')"
+          >
+            <span class="filter-btn-label">Difficulty</span>
+            <span class="filter-btn-value" id="diff-label">Any</span>
+            <span class="filter-btn-arrow">▼</span>
+          </button>
+          <div class="filter-popover" id="diff-popover">
+            <div
+              class="filter-option"
+              data-filter="diff"
+              data-value="all"
+              onclick="selectFilter(this)"
+            >
+              <span>All difficulties</span>
+              <span class="filter-check">✓</span>
+            </div>
+            <div
+              class="filter-option selected"
+              data-filter="diff"
+              data-value="all"
+              style="display: none"
+            ></div>
+            <div
+              class="filter-option"
+              data-filter="diff"
+              data-value="easy"
+              onclick="selectFilter(this)"
+            >
+              <span
+                class="filter-option-dot"
+                style="background: var(--easy)"
+              ></span>
+              <span>Easy</span>
+              <span class="filter-check">✓</span>
+            </div>
+            <div
+              class="filter-option"
+              data-filter="diff"
+              data-value="medium"
+              onclick="selectFilter(this)"
+            >
+              <span
+                class="filter-option-dot"
+                style="background: var(--medium)"
+              ></span>
+              <span>Medium</span>
+              <span class="filter-check">✓</span>
+            </div>
+            <div
+              class="filter-option"
+              data-filter="diff"
+              data-value="hard"
+              onclick="selectFilter(this)"
+            >
+              <span
+                class="filter-option-dot"
+                style="background: var(--hard)"
+              ></span>
+              <span>Hard</span>
+              <span class="filter-check">✓</span>
+            </div>
+          </div>
         </div>
-        <div class="filter-chips" data-filter-group="status">
-          <button class="chip active" data-value="all">All</button>
-          <button class="chip" data-value="solved">Solved</button>
-          <button class="chip" data-value="attempted">Attempted</button>
-          <button class="chip" data-value="unsolved">Unsolved</button>
+
+        <!-- Status dropdown -->
+        <div style="position: relative">
+          <button
+            class="filter-btn"
+            id="status-btn"
+            onclick="toggleFilterPopover('status-popover', 'status-btn')"
+          >
+            <span class="filter-btn-label">Status</span>
+            <span class="filter-btn-value" id="status-label">Any</span>
+            <span class="filter-btn-arrow">▼</span>
+          </button>
+          <div class="filter-popover" id="status-popover">
+            <div
+              class="filter-option selected"
+              data-filter="status"
+              data-value="all"
+              onclick="selectFilter(this)"
+            >
+              <span>All</span>
+              <span class="filter-check">✓</span>
+            </div>
+            <div
+              class="filter-option"
+              data-filter="status"
+              data-value="solved"
+              onclick="selectFilter(this)"
+            >
+              <span
+                class="filter-option-dot"
+                style="background: var(--easy)"
+              ></span>
+              <span>Solved</span>
+              <span class="filter-check">✓</span>
+            </div>
+            <div
+              class="filter-option"
+              data-filter="status"
+              data-value="attempted"
+              onclick="selectFilter(this)"
+            >
+              <span
+                class="filter-option-dot"
+                style="background: var(--medium)"
+              ></span>
+              <span>Attempted</span>
+              <span class="filter-check">✓</span>
+            </div>
+            <div
+              class="filter-option"
+              data-filter="status"
+              data-value="unsolved"
+              onclick="selectFilter(this)"
+            >
+              <span
+                class="filter-option-dot"
+                style="background: var(--border)"
+              ></span>
+              <span>Unsolved</span>
+              <span class="filter-check">✓</span>
+            </div>
+          </div>
         </div>
-        <div class="filter-chips" data-filter-group="premium">
-          <button class="chip active" data-value="all">All</button>
-          <button class="chip" data-value="false">Free</button>
-          <button class="chip" data-value="true">👑 Premium</button>
+
+        <!-- Access dropdown -->
+        <div style="position: relative">
+          <button
+            class="filter-btn"
+            id="access-btn"
+            onclick="toggleFilterPopover('access-popover', 'access-btn')"
+          >
+            <span class="filter-btn-label">Access</span>
+            <span class="filter-btn-value" id="access-label">Any</span>
+            <span class="filter-btn-arrow">▼</span>
+          </button>
+          <div class="filter-popover" id="access-popover">
+            <div
+              class="filter-option selected"
+              data-filter="access"
+              data-value="all"
+              onclick="selectFilter(this)"
+            >
+              <span>All</span>
+              <span class="filter-check">✓</span>
+            </div>
+            <div
+              class="filter-option"
+              data-filter="access"
+              data-value="false"
+              onclick="selectFilter(this)"
+            >
+              <span>🆓 Free</span>
+              <span class="filter-check">✓</span>
+            </div>
+            <div
+              class="filter-option"
+              data-filter="access"
+              data-value="true"
+              onclick="selectFilter(this)"
+            >
+              <span>👑 Premium</span>
+              <span class="filter-check">✓</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -458,7 +781,7 @@
 
     <script src="shared.js"></script>
     <script>
-      // Wire the dash-tab class into the existing tab system
+      // ── Tab switching ──
       document.querySelectorAll(".dash-tab").forEach((btn) => {
         btn.addEventListener("click", () => {
           document
@@ -475,10 +798,145 @@
         });
       });
 
+      // ── Filter state ──
+      const filterState = { diff: "all", status: "all", access: "all" };
+
+      const labelMap = {
+        diff: { all: "Any", easy: "Easy", medium: "Medium", hard: "Hard" },
+        status: {
+          all: "Any",
+          solved: "Solved",
+          attempted: "Attempted",
+          unsolved: "Unsolved",
+        },
+        access: { all: "Any", false: "Free", true: "Premium" },
+      };
+
+      function toggleFilterPopover(popoverId, btnId) {
+        const target = document.getElementById(popoverId);
+        const btn = document.getElementById(btnId);
+        const isOpen = target.classList.contains("open");
+        document
+          .querySelectorAll(".filter-popover")
+          .forEach((p) => p.classList.remove("open"));
+        document
+          .querySelectorAll(".filter-btn")
+          .forEach((b) => b.classList.remove("open"));
+        if (!isOpen) {
+          target.classList.add("open");
+          btn.classList.add("open");
+        }
+      }
+
+      function selectFilter(el) {
+        const filterKey = el.dataset.filter;
+        const val = el.dataset.value;
+
+        if (filterKey === "diff") {
+          if (val === "all") {
+            el.closest(".filter-popover")
+              .querySelectorAll(".filter-option")
+              .forEach((o) => o.classList.remove("selected"));
+            el.classList.add("selected");
+            filterState.diff = "all";
+          } else {
+            el.closest(".filter-popover")
+              .querySelector('[data-value="all"]')
+              .classList.remove("selected");
+            el.classList.toggle("selected");
+            const selected = [
+              ...el
+                .closest(".filter-popover")
+                .querySelectorAll(".filter-option.selected"),
+            ]
+              .map((o) => o.dataset.value)
+              .filter((v) => v && v !== "all");
+            filterState.diff = selected.length ? selected : "all";
+            if (!selected.length) {
+              el.closest(".filter-popover")
+                .querySelector('[data-value="all"]')
+                .classList.add("selected");
+            }
+          }
+          const active = filterState.diff === "all" ? [] : filterState.diff;
+          document.getElementById("diff-label").textContent =
+            active.length === 0
+              ? "Any"
+              : active.map((v) => labelMap.diff[v]).join(", ");
+          document
+            .getElementById("diff-btn")
+            .classList.toggle("has-active", active.length > 0);
+        } else {
+          el.closest(".filter-popover")
+            .querySelectorAll(".filter-option")
+            .forEach((o) => o.classList.remove("selected"));
+          el.classList.add("selected");
+          filterState[filterKey] = val;
+          const labelId =
+            filterKey === "status" ? "status-label" : "access-label";
+          const btnId = filterKey === "status" ? "status-btn" : "access-btn";
+          document.getElementById(labelId).textContent =
+            labelMap[filterKey][val];
+          document
+            .getElementById(btnId)
+            .classList.toggle("has-active", val !== "all");
+        }
+
+        applyFilters();
+      }
+
+      function applyFilters() {
+        const search = (
+          document.getElementById("problem-search")?.value || ""
+        ).toLowerCase();
+        const activeDiffs = filterState.diff === "all" ? [] : filterState.diff;
+
+        document.querySelectorAll(".problem-card").forEach((card) => {
+          const title = card.dataset.title || "";
+          const diff = card.dataset.difficulty || "";
+          const status = card.dataset.status || "";
+          const premium = card.dataset.premium || "";
+
+          const matchSearch = !search || title.includes(search);
+          const matchDiff =
+            activeDiffs.length === 0 || activeDiffs.includes(diff);
+          const matchStatus =
+            filterState.status === "all" || status === filterState.status;
+          const matchAccess =
+            filterState.access === "all" ||
+            (filterState.access === "true"
+              ? premium === "true"
+              : premium === "false");
+
+          card.style.display =
+            matchSearch && matchDiff && matchStatus && matchAccess
+              ? ""
+              : "none";
+        });
+      }
+
+      // Close popovers on outside click
+      document.addEventListener("click", (e) => {
+        if (
+          !e.target.closest(".filter-btn") &&
+          !e.target.closest(".filter-popover")
+        ) {
+          document
+            .querySelectorAll(".filter-popover")
+            .forEach((p) => p.classList.remove("open"));
+          document
+            .querySelectorAll(".filter-btn")
+            .forEach((b) => b.classList.remove("open"));
+        }
+      });
+
+      // Wire search input
+      document
+        .getElementById("problem-search")
+        ?.addEventListener("input", applyFilters);
+
       document.addEventListener("DOMContentLoaded", () => {
-        // All tab — show category badge (problems span many topics)
         renderProblemList("problem-list-all", PROBLEMS, true, true);
-        // Category tabs — hide category badge (already implied by the tab)
         renderProblemList(
           "problem-list-arrays",
           PROBLEMS.filter((p) => p.category === "Arrays & Hashing"),
