@@ -51,57 +51,57 @@
 }
 
 [data-theme="dark"] {
-  /* Base — warm charcoal, not cold blue-black */
-  --background: #111110;
-  --bg-secondary: #161614;
-  --foreground: #e8e6e1;
-  --card: #1a1917;
-  --card-foreground: #e8e6e1;
-  /* Primary — softened indigo, not eye-searing violet */
-  --primary: #8b7cf8;
-  --primary-light: #b0a4fb;
+  /* Base — stepped slate tones with clear contrast between each layer */
+  --background: #18181b;
+  --bg-secondary: #1e1e22;
+  --foreground: #f4f4f5;
+  --card: #27272a;
+  --card-foreground: #f4f4f5;
+  /* Primary — soft indigo, comfortable on dark bg */
+  --primary: #818cf8;
+  --primary-light: #a5b4fc;
   --primary-foreground: #ffffff;
-  --secondary: #222220;
-  --secondary-foreground: #b0a4fb;
-  --muted: #1f1e1c;
-  --muted-foreground: #888580;
-  --accent: #222220;
-  --accent-foreground: #b0a4fb;
-  --destructive: #e5484d;
-  --border: #2a2926;
-  --input: #2a2926;
-  --ring: #8b7cf8;
+  --secondary: #3f3f46;
+  --secondary-foreground: #a5b4fc;
+  --muted: #3f3f46;
+  --muted-foreground: #a1a1aa;
+  --accent: #3f3f46;
+  --accent-foreground: #a5b4fc;
+  --destructive: #f87171;
+  --border: #3f3f46;
+  --input: #27272a;
+  --ring: #818cf8;
   --radius: 12px;
   --radius-sm: 8px;
   --radius-lg: 16px;
   --radius-xl: 24px;
-  /* Status colors — muted enough for long sessions */
-  --easy: #3dd68c;
-  --easy-bg: #0d2117;
-  --medium: #f5a623;
-  --medium-bg: #1f1508;
-  --hard: #e5484d;
-  --hard-bg: #210c0d;
-  --premium: #b0a4fb;
-  --premium-bg: #1a1630;
-  --solved: #3dd68c;
-  --attempted: #f5a623;
-  /* Glows — very subtle so they don't fatigue */
-  --glow-primary: rgba(139, 124, 248, 0.18);
-  --glow-easy: rgba(61, 214, 140, 0.15);
-  --glass: rgba(26, 25, 23, 0.75);
-  --glass-border: rgba(139, 124, 248, 0.12);
-  /* Gradients — lower saturation for comfort */
-  --grad-hero: linear-gradient(135deg, #6d56e8 0%, #8b7cf8 50%, #b07ef5 100%);
+  /* Status — clear but not neon */
+  --easy: #4ade80;
+  --easy-bg: #14251c;
+  --medium: #fbbf24;
+  --medium-bg: #231a08;
+  --hard: #f87171;
+  --hard-bg: #2a1111;
+  --premium: #a5b4fc;
+  --premium-bg: #1e1b35;
+  --solved: #4ade80;
+  --attempted: #fbbf24;
+  /* Glows */
+  --glow-primary: rgba(129, 140, 248, 0.2);
+  --glow-easy: rgba(74, 222, 128, 0.15);
+  --glass: rgba(39, 39, 42, 0.8);
+  --glass-border: rgba(129, 140, 248, 0.15);
+  /* Gradients */
+  --grad-hero: linear-gradient(135deg, #6366f1 0%, #818cf8 50%, #a78bfa 100%);
   --grad-card: linear-gradient(
     135deg,
-    rgba(139, 124, 248, 0.07) 0%,
-    rgba(176, 164, 251, 0.03) 100%
+    rgba(129, 140, 248, 0.08) 0%,
+    rgba(165, 180, 252, 0.03) 100%
   );
-  --grad-easy: linear-gradient(135deg, #3dd68c, #2ab573);
-  --grad-medium: linear-gradient(135deg, #f5a623, #d4871a);
-  --grad-hard: linear-gradient(135deg, #e5484d, #c73539);
-  --grad-premium: linear-gradient(135deg, #8b7cf8, #7161e8);
+  --grad-easy: linear-gradient(135deg, #4ade80, #22c55e);
+  --grad-medium: linear-gradient(135deg, #fbbf24, #f59e0b);
+  --grad-hard: linear-gradient(135deg, #f87171, #ef4444);
+  --grad-premium: linear-gradient(135deg, #818cf8, #6366f1);
 }
 
 /* ── Reset ── */
