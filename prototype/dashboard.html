@@ -6,172 +6,151 @@
     <title>Dashboard — SensAI</title>
     <link rel="stylesheet" href="shared.css" />
     <style>
-      /* Progress Header Card */
-      .progress-header {
+      /* ── Page header — no box, just content on the page ── */
+      .dash-header {
+        padding: 32px 0 24px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 0;
+      }
+      .dash-header-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+      .dash-greeting {
+        font-family: "Unbounded", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--foreground);
+        line-height: 1.2;
+      }
+      .dash-greeting span {
         background: var(--grad-hero);
-        border-radius: var(--radius-xl);
-        padding: 28px 32px;
-        margin-bottom: 24px;
-        position: relative;
-        overflow: hidden;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
-      .progress-header::before {
-        content: "";
-        position: absolute;
-        top: -60px;
-        right: -60px;
-        width: 240px;
-        height: 240px;
-        background: rgba(255, 255, 255, 0.08);
-        border-radius: 50%;
+      .dash-meta {
+        font-size: 0.875rem;
+        color: var(--muted-foreground);
+        margin-top: 4px;
       }
-      .progress-header::after {
-        content: "";
-        position: absolute;
-        bottom: -80px;
-        left: 40%;
-        width: 280px;
-        height: 280px;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 50%;
-      }
-      .progress-header-content {
-        position: relative;
-        z-index: 1;
+
+      /* Inline stat row — no boxes */
+      .dash-stats {
         display: flex;
         align-items: center;
         gap: 32px;
         flex-wrap: wrap;
       }
-      .progress-header-main {
-        flex: 1;
-        min-width: 200px;
-      }
-      .progress-header-title {
-        font-family: "Unbounded", sans-serif;
-        font-size: 0.75rem;
-        font-weight: 700;
-        color: rgba(255, 255, 255, 0.7);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        margin-bottom: 6px;
-      }
-      .progress-header-fraction {
-        font-family: "Unbounded", sans-serif;
-        font-size: 2.25rem;
-        font-weight: 900;
-        color: #fff;
-        line-height: 1;
-      }
-      .progress-header-sub {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 0.875rem;
-        margin-top: 6px;
-      }
-      .progress-bar-white {
-        height: 10px;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 99px;
-        overflow: hidden;
-        margin-top: 14px;
-      }
-      .progress-bar-white-fill {
-        height: 100%;
-        background: #fff;
-        border-radius: 99px;
-        transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      /* Stat pills inside header */
-      .header-stat-row {
-        display: flex;
-        gap: 16px;
-        flex-wrap: wrap;
-      }
-      .header-stat {
+      .dash-stat {
         display: flex;
         flex-direction: column;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.12);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: var(--radius);
-        padding: 12px 20px;
-        min-width: 80px;
-        backdrop-filter: blur(8px);
+        gap: 2px;
       }
-      .header-stat-value {
-        font-size: 1.5rem;
-        font-weight: 900;
-        color: #fff;
+      .dash-stat-value {
         font-family: "Unbounded", sans-serif;
+        font-size: 1.625rem;
+        font-weight: 900;
+        color: var(--foreground);
         line-height: 1;
       }
-      .header-stat-label {
+      .dash-stat-label {
         font-size: 0.6875rem;
-        color: rgba(255, 255, 255, 0.7);
+        color: var(--muted-foreground);
         font-weight: 600;
-        margin-top: 4px;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.06em;
+      }
+      .dash-stat-divider {
+        width: 1px;
+        height: 36px;
+        background: var(--border);
+        flex-shrink: 0;
       }
 
-      /* Streak pill */
-      .streak-pill {
+      /* Progress bar — naked on the page */
+      .dash-progress-row {
         display: flex;
         align-items: center;
-        gap: 8px;
-        background: rgba(255, 255, 255, 0.15);
-        border: 1px solid rgba(255, 255, 255, 0.25);
+        gap: 14px;
+      }
+      .dash-progress-track {
+        flex: 1;
+        height: 6px;
+        background: var(--muted);
         border-radius: 99px;
-        padding: 10px 20px;
-        backdrop-filter: blur(8px);
+        overflow: hidden;
+        max-width: 280px;
       }
-      .streak-pill-flame {
-        font-size: 1.5rem;
-        animation: pulse 2s ease-in-out infinite;
+      .dash-progress-fill {
+        height: 100%;
+        background: var(--grad-hero);
+        border-radius: 99px;
       }
-      .streak-pill-count {
-        font-family: "Unbounded", sans-serif;
-        font-size: 1.5rem;
-        font-weight: 900;
-        color: #fff;
-        line-height: 1;
-      }
-      .streak-pill-label {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 0.75rem;
+      .dash-progress-label {
+        font-size: 0.8125rem;
+        color: var(--muted-foreground);
         font-weight: 600;
+        white-space: nowrap;
       }
 
-      /* Daily ring in header */
+      /* ── Filters — no box, just inline on page ── */
+      .dash-filters {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        padding: 20px 0 16px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      /* ── Category tabs — borderless, just a bottom line ── */
+      .dash-tabs {
+        display: flex;
+        gap: 0;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 24px;
+      }
+      .dash-tabs::-webkit-scrollbar {
+        display: none;
+      }
+      .dash-tab {
+        padding: 12px 16px;
+        border: none;
+        background: transparent;
+        color: var(--muted-foreground);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        white-space: nowrap;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -1px;
+        cursor: pointer;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+        font-family: "Space Grotesk", sans-serif;
+      }
+      .dash-tab:hover {
+        color: var(--foreground);
+      }
+      .dash-tab.active {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+      }
+
+      /* Daily ring — white label fix */
       .ring-white .ring-bg {
-        stroke: rgba(255, 255, 255, 0.2);
+        stroke: var(--muted);
       }
       .ring-white .ring-fill {
-        stroke: #fff;
-      }
-      .ring-white .ring-label {
-        color: #fff;
-      }
-
-      /* Filter area */
-      .filter-card {
-        background: var(--glass);
-        border: 1px solid var(--glass-border);
-        border-radius: var(--radius-lg);
-        padding: 16px 20px;
-        backdrop-filter: blur(12px);
-        margin-bottom: 20px;
-      }
-
-      /* Category tab bar */
-      .tab-bar-wrapper {
-        background: var(--glass);
-        border: 1px solid var(--glass-border);
-        border-radius: var(--radius-lg);
-        padding: 10px 12px;
-        backdrop-filter: blur(12px);
-        margin-bottom: 20px;
+        stroke: var(--primary);
       }
     </style>
   </head>
@@ -201,155 +180,131 @@
       </div>
     </nav>
 
-    <div class="container page-content">
-      <!-- Progress Header (gradient card) -->
-      <div class="progress-header">
-        <div class="progress-header-content">
-          <!-- Main progress -->
-          <div class="progress-header-main">
-            <div class="progress-header-title">Blind 75 Progress</div>
-            <div class="progress-header-fraction">
-              12 <span style="font-size: 1.25rem; opacity: 0.6">/ 75</span>
-            </div>
-            <div class="progress-header-sub">16% complete · Keep going! 🎯</div>
-            <div class="progress-bar-white">
-              <div class="progress-bar-white-fill" style="width: 16%"></div>
-            </div>
+    <div class="container">
+      <!-- Page header — no wrapper box -->
+      <div class="dash-header">
+        <div class="dash-header-top">
+          <div>
+            <div class="dash-greeting">Hey, <span>Monika</span> 👋</div>
+            <div class="dash-meta">June 25, 2026 · Keep that streak going!</div>
           </div>
-
-          <!-- Streak -->
-          <div class="streak-pill">
-            <span class="streak-pill-flame">🔥</span>
-            <div>
-              <div class="streak-pill-count">5</div>
-              <div class="streak-pill-label">Day Streak</div>
+          <div class="dash-stats">
+            <div class="dash-stat">
+              <div class="dash-stat-value" style="color: var(--easy)">🔥 5</div>
+              <div class="dash-stat-label">Day Streak</div>
             </div>
-          </div>
-
-          <!-- Daily ring -->
-          <div style="display: flex; align-items: center; gap: 14px">
-            <div class="ring-container">
-              <svg
-                class="ring-svg ring-white"
-                width="64"
-                height="64"
-                viewBox="0 0 64 64"
-              >
-                <circle class="ring-bg" cx="32" cy="32" r="26" />
-                <circle
-                  class="ring-fill"
-                  cx="32"
-                  cy="32"
-                  r="26"
-                  stroke-dasharray="163.4"
-                  stroke-dashoffset="40.9"
-                />
-              </svg>
-              <div class="ring-label ring-white" style="color: #fff">75%</div>
+            <div class="dash-stat-divider"></div>
+            <div class="dash-stat">
+              <div class="dash-stat-value">12</div>
+              <div class="dash-stat-label">Solved</div>
             </div>
-            <div>
-              <div style="font-weight: 800; color: #fff; font-size: 0.9375rem">
-                Daily Goal
+            <div class="dash-stat-divider"></div>
+            <div class="dash-stat">
+              <div class="dash-stat-value" style="color: var(--easy)">8</div>
+              <div class="dash-stat-label">Easy</div>
+            </div>
+            <div class="dash-stat">
+              <div class="dash-stat-value" style="color: var(--medium)">3</div>
+              <div class="dash-stat-label">Medium</div>
+            </div>
+            <div class="dash-stat">
+              <div class="dash-stat-value" style="color: var(--hard)">1</div>
+              <div class="dash-stat-label">Hard</div>
+            </div>
+            <div class="dash-stat-divider"></div>
+            <div class="dash-stat">
+              <div class="ring-container" style="width: 48px; height: 48px">
+                <svg
+                  class="ring-svg ring-white"
+                  width="48"
+                  height="48"
+                  viewBox="0 0 48 48"
+                >
+                  <circle class="ring-bg" cx="24" cy="24" r="19" />
+                  <circle
+                    class="ring-fill"
+                    cx="24"
+                    cy="24"
+                    r="19"
+                    stroke-dasharray="119.4"
+                    stroke-dashoffset="29.9"
+                  />
+                </svg>
+                <div class="ring-label" style="font-size: 0.5625rem">75%</div>
               </div>
-              <div
-                style="color: rgba(255, 255, 255, 0.7); font-size: 0.8125rem"
-              >
-                3 / 4 today
-              </div>
-            </div>
-          </div>
-
-          <!-- Quick stats -->
-          <div class="header-stat-row">
-            <div class="header-stat">
-              <div class="header-stat-value" style="color: #6ee7b7">8</div>
-              <div class="header-stat-label">Easy</div>
-            </div>
-            <div class="header-stat">
-              <div class="header-stat-value" style="color: #fde68a">3</div>
-              <div class="header-stat-label">Medium</div>
-            </div>
-            <div class="header-stat">
-              <div class="header-stat-value" style="color: #fda4af">1</div>
-              <div class="header-stat-label">Hard</div>
-            </div>
-            <div class="header-stat">
-              <div class="header-stat-value">4</div>
-              <div class="header-stat-label">This Week</div>
+              <div class="dash-stat-label" style="margin-top: 4px">Daily</div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Filters -->
-      <div class="filter-card">
-        <div class="flex gap-3" style="flex-wrap: wrap; align-items: center">
-          <div class="input-wrapper" style="flex: 1; min-width: 200px">
-            <span class="input-icon">🔍</span>
-            <input
-              type="text"
-              id="problem-search"
-              class="input"
-              placeholder="Search problems..."
-            />
+        <!-- Progress bar — naked -->
+        <div class="dash-progress-row">
+          <div class="dash-progress-track">
+            <div class="dash-progress-fill" style="width: 16%"></div>
           </div>
-          <div class="filter-chips" data-filter-group="multi">
-            <button class="chip" data-value="easy">🟢 Easy</button>
-            <button class="chip" data-value="medium">🟡 Medium</button>
-            <button class="chip" data-value="hard">🔴 Hard</button>
-          </div>
-          <div class="filter-chips" data-filter-group="status">
-            <button class="chip active" data-value="all">All</button>
-            <button class="chip" data-value="solved">✓ Solved</button>
-            <button class="chip" data-value="attempted">◑ Attempted</button>
-            <button class="chip" data-value="unsolved">– Unsolved</button>
-          </div>
-          <div class="filter-chips" data-filter-group="premium">
-            <button class="chip active" data-value="all">All</button>
-            <button class="chip" data-value="false">🆓 Free</button>
-            <button class="chip" data-value="true">👑 Premium</button>
-          </div>
+          <div class="dash-progress-label">12 / 75 Blind 75 · 16%</div>
         </div>
       </div>
 
-      <!-- Category Tabs -->
+      <!-- Filters — no box -->
+      <div class="dash-filters">
+        <div class="input-wrapper" style="min-width: 200px; max-width: 260px">
+          <span class="input-icon">🔍</span>
+          <input
+            type="text"
+            id="problem-search"
+            class="input"
+            placeholder="Search..."
+          />
+        </div>
+        <div class="filter-chips" data-filter-group="multi">
+          <button class="chip" data-value="easy">Easy</button>
+          <button class="chip" data-value="medium">Medium</button>
+          <button class="chip" data-value="hard">Hard</button>
+        </div>
+        <div class="filter-chips" data-filter-group="status">
+          <button class="chip active" data-value="all">All</button>
+          <button class="chip" data-value="solved">Solved</button>
+          <button class="chip" data-value="attempted">Attempted</button>
+          <button class="chip" data-value="unsolved">Unsolved</button>
+        </div>
+        <div class="filter-chips" data-filter-group="premium">
+          <button class="chip active" data-value="all">All</button>
+          <button class="chip" data-value="false">Free</button>
+          <button class="chip" data-value="true">👑 Premium</button>
+        </div>
+      </div>
+
+      <!-- Category tabs — no wrapper box, just a bottom border line -->
       <div data-tabs>
-        <div class="tab-bar-wrapper">
-          <div class="tabs-list">
-            <button class="tab-trigger active" data-tab="all">All</button>
-            <button class="tab-trigger" data-tab="arrays-hashing">
-              Arrays & Hashing
-            </button>
-            <button class="tab-trigger" data-tab="two-pointers">
-              Two Pointers
-            </button>
-            <button class="tab-trigger" data-tab="sliding-window">
-              Sliding Window
-            </button>
-            <button class="tab-trigger" data-tab="stack">Stack</button>
-            <button class="tab-trigger" data-tab="binary-search">
-              Binary Search
-            </button>
-            <button class="tab-trigger" data-tab="linked-list">
-              Linked List
-            </button>
-            <button class="tab-trigger" data-tab="trees">Trees</button>
-            <button class="tab-trigger" data-tab="tries">Tries</button>
-            <button class="tab-trigger" data-tab="heap">Heap</button>
-            <button class="tab-trigger" data-tab="backtracking">
-              Backtracking
-            </button>
-            <button class="tab-trigger" data-tab="graphs">Graphs</button>
-            <button class="tab-trigger" data-tab="dynamic-programming">
-              Dynamic Programming
-            </button>
-            <button class="tab-trigger" data-tab="greedy">Greedy</button>
-            <button class="tab-trigger" data-tab="intervals">Intervals</button>
-            <button class="tab-trigger" data-tab="math">Math</button>
-            <button class="tab-trigger" data-tab="bit-manipulation">
-              Bit Manipulation
-            </button>
-          </div>
+        <div class="dash-tabs">
+          <button class="dash-tab active" data-tab="all">All</button>
+          <button class="dash-tab" data-tab="arrays-hashing">
+            Arrays & Hashing
+          </button>
+          <button class="dash-tab" data-tab="two-pointers">Two Pointers</button>
+          <button class="dash-tab" data-tab="sliding-window">
+            Sliding Window
+          </button>
+          <button class="dash-tab" data-tab="stack">Stack</button>
+          <button class="dash-tab" data-tab="binary-search">
+            Binary Search
+          </button>
+          <button class="dash-tab" data-tab="linked-list">Linked List</button>
+          <button class="dash-tab" data-tab="trees">Trees</button>
+          <button class="dash-tab" data-tab="tries">Tries</button>
+          <button class="dash-tab" data-tab="heap">Heap</button>
+          <button class="dash-tab" data-tab="backtracking">Backtracking</button>
+          <button class="dash-tab" data-tab="graphs">Graphs</button>
+          <button class="dash-tab" data-tab="dynamic-programming">
+            Dynamic Programming
+          </button>
+          <button class="dash-tab" data-tab="greedy">Greedy</button>
+          <button class="dash-tab" data-tab="intervals">Intervals</button>
+          <button class="dash-tab" data-tab="math">Math</button>
+          <button class="dash-tab" data-tab="bit-manipulation">
+            Bit Manipulation
+          </button>
         </div>
 
         <!-- All Tab -->
@@ -485,14 +440,14 @@
           <div class="problem-list" id="problem-list-backtracking"></div>
         </div>
         <div class="tab-panel" data-tab="math">
-          <div class="card card-flat text-center p-4 text-muted">
-            Math &amp; Geometry problems coming soon ✨
-          </div>
+          <p class="text-muted" style="padding: 24px 0">
+            Math & Geometry problems coming soon ✨
+          </p>
         </div>
         <div class="tab-panel" data-tab="bit-manipulation">
-          <div class="card card-flat text-center p-4 text-muted">
+          <p class="text-muted" style="padding: 24px 0">
             Bit Manipulation problems coming soon ✨
-          </div>
+          </p>
         </div>
       </div>
     </div>
@@ -503,6 +458,23 @@
 
     <script src="shared.js"></script>
     <script>
+      // Wire the dash-tab class into the existing tab system
+      document.querySelectorAll(".dash-tab").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".dash-tab")
+            .forEach((t) => t.classList.remove("active"));
+          document
+            .querySelectorAll(".tab-panel")
+            .forEach((p) => p.classList.remove("active"));
+          btn.classList.add("active");
+          const panel = document.querySelector(
+            `.tab-panel[data-tab="${btn.dataset.tab}"]`,
+          );
+          if (panel) panel.classList.add("active");
+        });
+      });
+
       document.addEventListener("DOMContentLoaded", () => {
         renderProblemList("problem-list-all", PROBLEMS, true);
         renderProblemList(
