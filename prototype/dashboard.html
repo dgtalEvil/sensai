@@ -1,286 +1,581 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="dark">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard — SensAI</title>
-  <link rel="stylesheet" href="shared.css" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — SensAI</title>
+    <link rel="stylesheet" href="shared.css" />
+    <style>
+      /* Progress Header Card */
+      .progress-header {
+        background: var(--grad-hero);
+        border-radius: var(--radius-xl);
+        padding: 28px 32px;
+        margin-bottom: 24px;
+        position: relative;
+        overflow: hidden;
+      }
+      .progress-header::before {
+        content: "";
+        position: absolute;
+        top: -60px;
+        right: -60px;
+        width: 240px;
+        height: 240px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+      }
+      .progress-header::after {
+        content: "";
+        position: absolute;
+        bottom: -80px;
+        left: 40%;
+        width: 280px;
+        height: 280px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+      }
+      .progress-header-content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        flex-wrap: wrap;
+      }
+      .progress-header-main {
+        flex: 1;
+        min-width: 200px;
+      }
+      .progress-header-title {
+        font-family: "Unbounded", sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.7);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+      }
+      .progress-header-fraction {
+        font-family: "Unbounded", sans-serif;
+        font-size: 2.25rem;
+        font-weight: 900;
+        color: #fff;
+        line-height: 1;
+      }
+      .progress-header-sub {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.875rem;
+        margin-top: 6px;
+      }
+      .progress-bar-white {
+        height: 10px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 99px;
+        overflow: hidden;
+        margin-top: 14px;
+      }
+      .progress-bar-white-fill {
+        height: 100%;
+        background: #fff;
+        border-radius: 99px;
+        transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="navbar-inner">
-      <a href="index.html" class="navbar-logo">
-        <div class="logo-icon">S</div>
-        SensAI
-      </a>
-      <div class="navbar-nav">
-        <a href="dashboard.html" class="nav-link active">Problems</a>
-        <a href="stats.html" class="nav-link">Stats</a>
-      </div>
-      <div class="navbar-actions">
-        <button class="theme-toggle">☀️</button>
-        <div style="position:relative;">
-          <div class="avatar" title="Account">M</div>
-          <div class="avatar-dropdown">
-            <a href="stats.html" class="dropdown-item">📊 My Stats</a>
-            <div class="dropdown-sep"></div>
-            <a href="index.html" class="dropdown-item">🚪 Sign Out</a>
-          </div>
+      /* Stat pills inside header */
+      .header-stat-row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .header-stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: var(--radius);
+        padding: 12px 20px;
+        min-width: 80px;
+        backdrop-filter: blur(8px);
+      }
+      .header-stat-value {
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: #fff;
+        font-family: "Unbounded", sans-serif;
+        line-height: 1;
+      }
+      .header-stat-label {
+        font-size: 0.6875rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 600;
+        margin-top: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      /* Streak pill */
+      .streak-pill {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 99px;
+        padding: 10px 20px;
+        backdrop-filter: blur(8px);
+      }
+      .streak-pill-flame {
+        font-size: 1.5rem;
+        animation: pulse 2s ease-in-out infinite;
+      }
+      .streak-pill-count {
+        font-family: "Unbounded", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: #fff;
+        line-height: 1;
+      }
+      .streak-pill-label {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      /* Daily ring in header */
+      .ring-white .ring-bg {
+        stroke: rgba(255, 255, 255, 0.2);
+      }
+      .ring-white .ring-fill {
+        stroke: #fff;
+      }
+      .ring-white .ring-label {
+        color: #fff;
+      }
+
+      /* Filter area */
+      .filter-card {
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-lg);
+        padding: 16px 20px;
+        backdrop-filter: blur(12px);
+        margin-bottom: 20px;
+      }
+
+      /* Category tab bar */
+      .tab-bar-wrapper {
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-lg);
+        padding: 10px 12px;
+        backdrop-filter: blur(12px);
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo">
+          <div class="logo-icon">S</div>
+          SensAI
+        </a>
+        <div class="navbar-nav">
+          <a href="dashboard.html" class="nav-link active">Problems</a>
+          <a href="stats.html" class="nav-link">Stats</a>
         </div>
-      </div>
-    </div>
-  </nav>
-
-  <div class="container page-content">
-
-    <!-- Progress Header -->
-    <div class="card mb-6" style="padding:20px;">
-      <div class="flex items-center gap-4" style="flex-wrap:wrap;">
-
-        <!-- Overall Progress -->
-        <div style="flex:1;min-width:200px;">
-          <div class="flex justify-between mb-2">
-            <span class="font-semibold text-sm">Overall Progress</span>
-            <span class="text-sm text-muted">12 / 75 solved</span>
-          </div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width:16%;"></div>
-          </div>
-          <div class="text-xs text-muted mt-1">16% complete</div>
-        </div>
-
-        <div style="width:1px;height:48px;background:var(--border);"></div>
-
-        <!-- Streak -->
-        <div class="streak-display" style="flex-direction:column;align-items:center;gap:2px;">
-          <div class="flex items-center gap-2">
-            <span class="streak-flame">🔥</span>
-            <span class="streak-count">5</span>
-          </div>
-          <span class="streak-label">day streak</span>
-        </div>
-
-        <div style="width:1px;height:48px;background:var(--border);"></div>
-
-        <!-- Daily Goal Ring -->
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div class="ring-container">
-            <svg class="ring-svg" width="56" height="56" viewBox="0 0 56 56">
-              <circle class="ring-bg" cx="28" cy="28" r="22"/>
-              <circle class="ring-fill" cx="28" cy="28" r="22"
-                stroke-dasharray="138.2"
-                stroke-dashoffset="34.6"/>
-            </svg>
-            <div class="ring-label">75%</div>
-          </div>
-          <div>
-            <div class="font-semibold text-sm">Daily Goal</div>
-            <div class="text-xs text-muted">3 / 4 today</div>
-          </div>
-        </div>
-
-        <div style="width:1px;height:48px;background:var(--border);"></div>
-
-        <!-- Quick Stats -->
-        <div class="flex gap-4">
-          <div style="text-align:center;">
-            <div style="font-size:1.25rem;font-weight:700;color:var(--foreground);">4</div>
-            <div class="text-xs text-muted">This week</div>
-          </div>
-          <div style="text-align:center;">
-            <div style="font-size:1.25rem;font-weight:700;color:var(--easy);">8</div>
-            <div class="text-xs text-muted">Easy</div>
-          </div>
-          <div style="text-align:center;">
-            <div style="font-size:1.25rem;font-weight:700;color:var(--medium);">3</div>
-            <div class="text-xs text-muted">Medium</div>
-          </div>
-          <div style="text-align:center;">
-            <div style="font-size:1.25rem;font-weight:700;color:var(--hard);">1</div>
-            <div class="text-xs text-muted">Hard</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Filters -->
-    <div class="card mb-4" style="padding:16px;">
-      <div class="flex gap-3" style="flex-wrap:wrap;align-items:center;">
-        <div class="input-wrapper" style="flex:1;min-width:200px;">
-          <span class="input-icon">🔍</span>
-          <input type="text" id="problem-search" class="input" placeholder="Search problems..." />
-        </div>
-        <div class="filter-chips" data-filter-group="multi">
-          <button class="chip" data-value="easy">Easy</button>
-          <button class="chip" data-value="medium">Medium</button>
-          <button class="chip" data-value="hard">Hard</button>
-        </div>
-        <div class="filter-chips" data-filter-group="status">
-          <button class="chip active" data-value="all">All</button>
-          <button class="chip" data-value="solved">Solved</button>
-          <button class="chip" data-value="attempted">Attempted</button>
-          <button class="chip" data-value="unsolved">Unsolved</button>
-        </div>
-        <div class="filter-chips" data-filter-group="premium">
-          <button class="chip active" data-value="all">All</button>
-          <button class="chip" data-value="false">Free</button>
-          <button class="chip" data-value="true">Premium</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Category Tabs -->
-    <div data-tabs>
-      <div class="tabs-list mb-4">
-        <button class="tab-trigger active" data-tab="all">All</button>
-        <button class="tab-trigger" data-tab="arrays-hashing">Arrays & Hashing</button>
-        <button class="tab-trigger" data-tab="two-pointers">Two Pointers</button>
-        <button class="tab-trigger" data-tab="sliding-window">Sliding Window</button>
-        <button class="tab-trigger" data-tab="stack">Stack</button>
-        <button class="tab-trigger" data-tab="binary-search">Binary Search</button>
-        <button class="tab-trigger" data-tab="linked-list">Linked List</button>
-        <button class="tab-trigger" data-tab="trees">Trees</button>
-        <button class="tab-trigger" data-tab="tries">Tries</button>
-        <button class="tab-trigger" data-tab="heap">Heap</button>
-        <button class="tab-trigger" data-tab="backtracking">Backtracking</button>
-        <button class="tab-trigger" data-tab="graphs">Graphs</button>
-        <button class="tab-trigger" data-tab="dynamic-programming">Dynamic Programming</button>
-        <button class="tab-trigger" data-tab="greedy">Greedy</button>
-        <button class="tab-trigger" data-tab="intervals">Intervals</button>
-        <button class="tab-trigger" data-tab="math">Math</button>
-        <button class="tab-trigger" data-tab="bit-manipulation">Bit Manipulation</button>
-      </div>
-
-      <!-- All Tab -->
-      <div class="tab-panel active" data-tab="all">
-        <div class="section-header mb-3">
-          <span class="section-title">All Problems</span>
-          <span class="text-xs text-muted">20 of 75 shown</span>
-        </div>
-        <div class="problem-list" id="problem-list-all"></div>
-        <div class="pagination mt-6">
-          <button class="page-btn">←</button>
-          <button class="page-btn active">1</button>
-          <button class="page-btn">2</button>
-          <button class="page-btn">3</button>
-          <button class="page-btn">4</button>
-          <button class="page-btn">→</button>
-        </div>
-      </div>
-
-      <!-- Arrays & Hashing -->
-      <div class="tab-panel" data-tab="arrays-hashing">
-        <div class="section-header mb-3">
-          <span class="section-title">Arrays & Hashing</span>
-          <div class="flex items-center gap-3">
-            <div class="progress-sm" style="width:120px;">
-              <div class="progress-track"><div class="progress-fill" style="width:33%;"></div></div>
+        <div class="navbar-actions">
+          <button class="theme-toggle">☀️</button>
+          <div style="position: relative">
+            <div class="avatar" title="Account">M</div>
+            <div class="avatar-dropdown">
+              <a href="stats.html" class="dropdown-item">📊 My Stats</a>
+              <div class="dropdown-sep"></div>
+              <a href="index.html" class="dropdown-item">🚪 Sign Out</a>
             </div>
-            <span class="text-xs text-muted">3 / 9 solved</span>
           </div>
         </div>
-        <div class="problem-list" id="problem-list-arrays"></div>
       </div>
+    </nav>
 
-      <!-- Two Pointers -->
-      <div class="tab-panel" data-tab="two-pointers">
-        <div class="section-header mb-3">
-          <span class="section-title">Two Pointers</span>
-          <div class="flex items-center gap-3">
-            <div class="progress-sm" style="width:120px;">
-              <div class="progress-track"><div class="progress-fill" style="width:20%;"></div></div>
+    <div class="container page-content">
+      <!-- Progress Header (gradient card) -->
+      <div class="progress-header">
+        <div class="progress-header-content">
+          <!-- Main progress -->
+          <div class="progress-header-main">
+            <div class="progress-header-title">Blind 75 Progress</div>
+            <div class="progress-header-fraction">
+              12 <span style="font-size: 1.25rem; opacity: 0.6">/ 75</span>
             </div>
-            <span class="text-xs text-muted">1 / 5 solved</span>
-          </div>
-        </div>
-        <div class="problem-list" id="problem-list-two-pointers"></div>
-      </div>
-
-      <!-- Trees -->
-      <div class="tab-panel" data-tab="trees">
-        <div class="section-header mb-3">
-          <span class="section-title">Trees</span>
-          <div class="flex items-center gap-3">
-            <div class="progress-sm" style="width:120px;">
-              <div class="progress-track"><div class="progress-fill" style="width:36%;"></div></div>
+            <div class="progress-header-sub">16% complete · Keep going! 🎯</div>
+            <div class="progress-bar-white">
+              <div class="progress-bar-white-fill" style="width: 16%"></div>
             </div>
-            <span class="text-xs text-muted">4 / 11 solved</span>
+          </div>
+
+          <!-- Streak -->
+          <div class="streak-pill">
+            <span class="streak-pill-flame">🔥</span>
+            <div>
+              <div class="streak-pill-count">5</div>
+              <div class="streak-pill-label">Day Streak</div>
+            </div>
+          </div>
+
+          <!-- Daily ring -->
+          <div style="display: flex; align-items: center; gap: 14px">
+            <div class="ring-container">
+              <svg
+                class="ring-svg ring-white"
+                width="64"
+                height="64"
+                viewBox="0 0 64 64"
+              >
+                <circle class="ring-bg" cx="32" cy="32" r="26" />
+                <circle
+                  class="ring-fill"
+                  cx="32"
+                  cy="32"
+                  r="26"
+                  stroke-dasharray="163.4"
+                  stroke-dashoffset="40.9"
+                />
+              </svg>
+              <div class="ring-label ring-white" style="color: #fff">75%</div>
+            </div>
+            <div>
+              <div style="font-weight: 800; color: #fff; font-size: 0.9375rem">
+                Daily Goal
+              </div>
+              <div
+                style="color: rgba(255, 255, 255, 0.7); font-size: 0.8125rem"
+              >
+                3 / 4 today
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick stats -->
+          <div class="header-stat-row">
+            <div class="header-stat">
+              <div class="header-stat-value" style="color: #6ee7b7">8</div>
+              <div class="header-stat-label">Easy</div>
+            </div>
+            <div class="header-stat">
+              <div class="header-stat-value" style="color: #fde68a">3</div>
+              <div class="header-stat-label">Medium</div>
+            </div>
+            <div class="header-stat">
+              <div class="header-stat-value" style="color: #fda4af">1</div>
+              <div class="header-stat-label">Hard</div>
+            </div>
+            <div class="header-stat">
+              <div class="header-stat-value">4</div>
+              <div class="header-stat-label">This Week</div>
+            </div>
           </div>
         </div>
-        <div class="problem-list" id="problem-list-trees"></div>
       </div>
 
-      <!-- Placeholder for other tabs -->
-      <div class="tab-panel" data-tab="sliding-window">
-        <div class="problem-list" id="problem-list-sliding"></div>
-      </div>
-      <div class="tab-panel" data-tab="stack">
-        <div class="problem-list" id="problem-list-stack"></div>
-      </div>
-      <div class="tab-panel" data-tab="binary-search">
-        <div class="problem-list" id="problem-list-bsearch"></div>
-      </div>
-      <div class="tab-panel" data-tab="linked-list">
-        <div class="problem-list" id="problem-list-linked"></div>
-      </div>
-      <div class="tab-panel" data-tab="graphs">
-        <div class="problem-list" id="problem-list-graphs"></div>
-      </div>
-      <div class="tab-panel" data-tab="dynamic-programming">
-        <div class="problem-list" id="problem-list-dp"></div>
-      </div>
-      <div class="tab-panel" data-tab="greedy">
-        <div class="problem-list" id="problem-list-greedy"></div>
-      </div>
-      <div class="tab-panel" data-tab="intervals">
-        <div class="problem-list" id="problem-list-intervals"></div>
-      </div>
-      <div class="tab-panel" data-tab="tries">
-        <div class="problem-list" id="problem-list-tries"></div>
-      </div>
-      <div class="tab-panel" data-tab="heap">
-        <div class="problem-list" id="problem-list-heap"></div>
-      </div>
-      <div class="tab-panel" data-tab="backtracking">
-        <div class="problem-list" id="problem-list-backtracking"></div>
-      </div>
-      <div class="tab-panel" data-tab="math">
-        <div class="text-sm text-muted p-4">Math & Geometry problems coming soon.</div>
-      </div>
-      <div class="tab-panel" data-tab="bit-manipulation">
-        <div class="text-sm text-muted p-4">Bit Manipulation problems coming soon.</div>
+      <!-- Filters -->
+      <div class="filter-card">
+        <div class="flex gap-3" style="flex-wrap: wrap; align-items: center">
+          <div class="input-wrapper" style="flex: 1; min-width: 200px">
+            <span class="input-icon">🔍</span>
+            <input
+              type="text"
+              id="problem-search"
+              class="input"
+              placeholder="Search problems..."
+            />
+          </div>
+          <div class="filter-chips" data-filter-group="multi">
+            <button class="chip" data-value="easy">🟢 Easy</button>
+            <button class="chip" data-value="medium">🟡 Medium</button>
+            <button class="chip" data-value="hard">🔴 Hard</button>
+          </div>
+          <div class="filter-chips" data-filter-group="status">
+            <button class="chip active" data-value="all">All</button>
+            <button class="chip" data-value="solved">✓ Solved</button>
+            <button class="chip" data-value="attempted">◑ Attempted</button>
+            <button class="chip" data-value="unsolved">– Unsolved</button>
+          </div>
+          <div class="filter-chips" data-filter-group="premium">
+            <button class="chip active" data-value="all">All</button>
+            <button class="chip" data-value="false">🆓 Free</button>
+            <button class="chip" data-value="true">👑 Premium</button>
+          </div>
+        </div>
       </div>
 
+      <!-- Category Tabs -->
+      <div data-tabs>
+        <div class="tab-bar-wrapper">
+          <div class="tabs-list">
+            <button class="tab-trigger active" data-tab="all">All</button>
+            <button class="tab-trigger" data-tab="arrays-hashing">
+              Arrays & Hashing
+            </button>
+            <button class="tab-trigger" data-tab="two-pointers">
+              Two Pointers
+            </button>
+            <button class="tab-trigger" data-tab="sliding-window">
+              Sliding Window
+            </button>
+            <button class="tab-trigger" data-tab="stack">Stack</button>
+            <button class="tab-trigger" data-tab="binary-search">
+              Binary Search
+            </button>
+            <button class="tab-trigger" data-tab="linked-list">
+              Linked List
+            </button>
+            <button class="tab-trigger" data-tab="trees">Trees</button>
+            <button class="tab-trigger" data-tab="tries">Tries</button>
+            <button class="tab-trigger" data-tab="heap">Heap</button>
+            <button class="tab-trigger" data-tab="backtracking">
+              Backtracking
+            </button>
+            <button class="tab-trigger" data-tab="graphs">Graphs</button>
+            <button class="tab-trigger" data-tab="dynamic-programming">
+              Dynamic Programming
+            </button>
+            <button class="tab-trigger" data-tab="greedy">Greedy</button>
+            <button class="tab-trigger" data-tab="intervals">Intervals</button>
+            <button class="tab-trigger" data-tab="math">Math</button>
+            <button class="tab-trigger" data-tab="bit-manipulation">
+              Bit Manipulation
+            </button>
+          </div>
+        </div>
+
+        <!-- All Tab -->
+        <div class="tab-panel active" data-tab="all">
+          <div class="section-header mb-3">
+            <span class="section-title">All Problems</span>
+            <span class="text-xs text-muted">20 of 75 shown</span>
+          </div>
+          <div class="problem-list" id="problem-list-all"></div>
+          <div class="pagination mt-6">
+            <button class="page-btn">←</button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn">4</button>
+            <button class="page-btn">→</button>
+          </div>
+        </div>
+
+        <!-- Arrays & Hashing -->
+        <div class="tab-panel" data-tab="arrays-hashing">
+          <div class="section-header mb-3">
+            <span class="section-title">🗂️ Arrays & Hashing</span>
+            <div class="flex items-center gap-3">
+              <div class="progress-sm" style="width: 120px">
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 33%"></div>
+                </div>
+              </div>
+              <span class="text-xs text-muted">3 / 9 solved</span>
+            </div>
+          </div>
+          <div class="problem-list" id="problem-list-arrays"></div>
+        </div>
+
+        <!-- Two Pointers -->
+        <div class="tab-panel" data-tab="two-pointers">
+          <div class="section-header mb-3">
+            <span class="section-title">👉 Two Pointers</span>
+            <div class="flex items-center gap-3">
+              <div class="progress-sm" style="width: 120px">
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 20%"></div>
+                </div>
+              </div>
+              <span class="text-xs text-muted">1 / 5 solved</span>
+            </div>
+          </div>
+          <div class="problem-list" id="problem-list-two-pointers"></div>
+        </div>
+
+        <!-- Trees -->
+        <div class="tab-panel" data-tab="trees">
+          <div class="section-header mb-3">
+            <span class="section-title">🌲 Trees</span>
+            <div class="flex items-center gap-3">
+              <div class="progress-sm" style="width: 120px">
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 36%"></div>
+                </div>
+              </div>
+              <span class="text-xs text-muted">4 / 11 solved</span>
+            </div>
+          </div>
+          <div class="problem-list" id="problem-list-trees"></div>
+        </div>
+
+        <!-- Remaining tabs -->
+        <div class="tab-panel" data-tab="sliding-window">
+          <div class="section-header mb-3">
+            <span class="section-title">🪟 Sliding Window</span>
+          </div>
+          <div class="problem-list" id="problem-list-sliding"></div>
+        </div>
+        <div class="tab-panel" data-tab="stack">
+          <div class="section-header mb-3">
+            <span class="section-title">📚 Stack</span>
+          </div>
+          <div class="problem-list" id="problem-list-stack"></div>
+        </div>
+        <div class="tab-panel" data-tab="binary-search">
+          <div class="section-header mb-3">
+            <span class="section-title">🔍 Binary Search</span>
+          </div>
+          <div class="problem-list" id="problem-list-bsearch"></div>
+        </div>
+        <div class="tab-panel" data-tab="linked-list">
+          <div class="section-header mb-3">
+            <span class="section-title">🔗 Linked List</span>
+          </div>
+          <div class="problem-list" id="problem-list-linked"></div>
+        </div>
+        <div class="tab-panel" data-tab="graphs">
+          <div class="section-header mb-3">
+            <span class="section-title">🗺️ Graphs</span>
+          </div>
+          <div class="problem-list" id="problem-list-graphs"></div>
+        </div>
+        <div class="tab-panel" data-tab="dynamic-programming">
+          <div class="section-header mb-3">
+            <span class="section-title">🧠 Dynamic Programming</span>
+          </div>
+          <div class="problem-list" id="problem-list-dp"></div>
+        </div>
+        <div class="tab-panel" data-tab="greedy">
+          <div class="section-header mb-3">
+            <span class="section-title">💰 Greedy</span>
+          </div>
+          <div class="problem-list" id="problem-list-greedy"></div>
+        </div>
+        <div class="tab-panel" data-tab="intervals">
+          <div class="section-header mb-3">
+            <span class="section-title">⏱️ Intervals</span>
+          </div>
+          <div class="problem-list" id="problem-list-intervals"></div>
+        </div>
+        <div class="tab-panel" data-tab="tries">
+          <div class="section-header mb-3">
+            <span class="section-title">🌿 Tries</span>
+          </div>
+          <div class="problem-list" id="problem-list-tries"></div>
+        </div>
+        <div class="tab-panel" data-tab="heap">
+          <div class="section-header mb-3">
+            <span class="section-title">⛰️ Heap / Priority Queue</span>
+          </div>
+          <div class="problem-list" id="problem-list-heap"></div>
+        </div>
+        <div class="tab-panel" data-tab="backtracking">
+          <div class="section-header mb-3">
+            <span class="section-title">↩️ Backtracking</span>
+          </div>
+          <div class="problem-list" id="problem-list-backtracking"></div>
+        </div>
+        <div class="tab-panel" data-tab="math">
+          <div class="card card-flat text-center p-4 text-muted">
+            Math &amp; Geometry problems coming soon ✨
+          </div>
+        </div>
+        <div class="tab-panel" data-tab="bit-manipulation">
+          <div class="card card-flat text-center p-4 text-muted">
+            Bit Manipulation problems coming soon ✨
+          </div>
+        </div>
+      </div>
     </div>
 
-  </div>
+    <footer class="footer">
+      <div>© 2026 SensAI</div>
+    </footer>
 
-  <footer class="footer">
-    <div>© 2026 SensAI</div>
-  </footer>
-
-  <script src="shared.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      renderProblemList('problem-list-all', PROBLEMS, true);
-      renderProblemList('problem-list-arrays', PROBLEMS.filter(p => p.category === 'Arrays & Hashing'), true);
-      renderProblemList('problem-list-two-pointers', PROBLEMS.filter(p => p.category === 'Two Pointers'), true);
-      renderProblemList('problem-list-trees', PROBLEMS.filter(p => p.category === 'Trees'), true);
-      renderProblemList('problem-list-sliding', PROBLEMS.filter(p => p.category === 'Sliding Window'), true);
-      renderProblemList('problem-list-stack', PROBLEMS.filter(p => p.category === 'Stack'), true);
-      renderProblemList('problem-list-bsearch', PROBLEMS.filter(p => p.category === 'Binary Search'), true);
-      renderProblemList('problem-list-linked', PROBLEMS.filter(p => p.category === 'Linked List'), true);
-      renderProblemList('problem-list-graphs', PROBLEMS.filter(p => p.category === 'Graphs'), true);
-      renderProblemList('problem-list-dp', PROBLEMS.filter(p => p.category === 'Dynamic Programming'), true);
-      renderProblemList('problem-list-greedy', PROBLEMS.filter(p => p.category === 'Greedy'), true);
-      renderProblemList('problem-list-intervals', PROBLEMS.filter(p => p.category === 'Intervals'), true);
-      renderProblemList('problem-list-tries', PROBLEMS.filter(p => p.category === 'Tries'), true);
-      renderProblemList('problem-list-heap', PROBLEMS.filter(p => p.category === 'Heap / Priority Queue'), true);
-      renderProblemList('problem-list-backtracking', PROBLEMS.filter(p => p.category === 'Backtracking'), true);
-    });
-  </script>
-</body>
+    <script src="shared.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        renderProblemList("problem-list-all", PROBLEMS, true);
+        renderProblemList(
+          "problem-list-arrays",
+          PROBLEMS.filter((p) => p.category === "Arrays & Hashing"),
+          true,
+        );
+        renderProblemList(
+          "problem-list-two-pointers",
+          PROBLEMS.filter((p) => p.category === "Two Pointers"),
+          true,
+        );
+        renderProblemList(
+          "problem-list-trees",
+          PROBLEMS.filter((p) => p.category === "Trees"),
+          true,
+        );
+        renderProblemList(
+          "problem-list-sliding",
+          PROBLEMS.filter((p) => p.category === "Sliding Window"),
+          true,
+        );
+        renderProblemList(
+          "problem-list-stack",
+          PROBLEMS.filter((p) => p.category === "Stack"),
+          true,
+        );
+        renderProblemList(
+          "problem-list-bsearch",
+          PROBLEMS.filter((p) => p.category === "Binary Search"),
+          true,
+        );
+        renderProblemList(
+          "problem-list-linked",
+          PROBLEMS.filter((p) => p.category === "Linked List"),
+          true,
+        );
+        renderProblemList(
+          "problem-list-graphs",
+          PROBLEMS.filter((p) => p.category === "Graphs"),
+          true,
+        );
+        renderProblemList(
+          "problem-list-dp",
+          PROBLEMS.filter((p) => p.category === "Dynamic Programming"),
+          true,
+        );
+        renderProblemList(
+          "problem-list-greedy",
+          PROBLEMS.filter((p) => p.category === "Greedy"),
+          true,
+        );
+        renderProblemList(
+          "problem-list-intervals",
+          PROBLEMS.filter((p) => p.category === "Intervals"),
+          true,
+        );
+        renderProblemList(
+          "problem-list-tries",
+          PROBLEMS.filter((p) => p.category === "Tries"),
+          true,
+        );
+        renderProblemList(
+          "problem-list-heap",
+          PROBLEMS.filter((p) => p.category === "Heap / Priority Queue"),
+          true,
+        );
+        renderProblemList(
+          "problem-list-backtracking",
+          PROBLEMS.filter((p) => p.category === "Backtracking"),
+          true,
+        );
+      });
+    </script>
+  </body>
 </html>

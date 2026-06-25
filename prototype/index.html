@@ -1,145 +1,584 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="dark">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SensAI — Master DSA</title>
-  <link rel="stylesheet" href="shared.css" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SensAI — Master DSA</title>
+    <link rel="stylesheet" href="shared.css" />
+    <style>
+      /* Radial glow behind hero */
+      .hero-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -60%);
+        width: 700px;
+        height: 500px;
+        background: radial-gradient(
+          ellipse,
+          var(--glow-primary) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+        z-index: 0;
+      }
+      .hero > .container {
+        position: relative;
+        z-index: 1;
+      }
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="navbar-inner">
-      <a href="index.html" class="navbar-logo">
+      /* Feature tiles grid */
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-top: 64px;
+      }
+      .feature-tile {
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-lg);
+        padding: 28px 24px;
+        backdrop-filter: blur(12px);
+        transition: all 0.25s;
+        position: relative;
+        overflow: hidden;
+      }
+      .feature-tile::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--grad-hero);
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+      .feature-tile:hover {
+        border-color: var(--primary);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px var(--glow-primary);
+      }
+      .feature-tile:hover::after {
+        opacity: 1;
+      }
+      .feature-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: var(--radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        background: rgba(124, 92, 255, 0.12);
+        border: 1px solid var(--glass-border);
+        margin-bottom: 16px;
+      }
+      .feature-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--foreground);
+        margin-bottom: 8px;
+      }
+      .feature-desc {
+        font-size: 0.875rem;
+        color: var(--muted-foreground);
+        line-height: 1.6;
+      }
+
+      /* How it works */
+      .how-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        margin-top: 48px;
+      }
+      .how-step {
+        text-align: center;
+        padding: 32px 24px;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-lg);
+        backdrop-filter: blur(8px);
+        position: relative;
+      }
+      .how-step-num {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: var(--grad-hero);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Unbounded", sans-serif;
+        font-size: 1.125rem;
+        font-weight: 900;
+        margin: 0 auto 16px;
+        box-shadow: 0 4px 20px var(--glow-primary);
+      }
+      .how-step-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--foreground);
+        margin-bottom: 8px;
+      }
+      .how-step-desc {
+        font-size: 0.875rem;
+        color: var(--muted-foreground);
+        line-height: 1.6;
+      }
+
+      /* Connector line between steps */
+      .how-grid::before {
+        content: "";
+        display: none;
+      }
+
+      /* Visualizer type pills */
+      .viz-pills {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 28px;
+      }
+      .viz-pill {
+        padding: 8px 18px;
+        border-radius: 99px;
+        border: 1px solid var(--glass-border);
+        background: var(--glass);
+        color: var(--muted-foreground);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        backdrop-filter: blur(8px);
+        transition: all 0.2s;
+      }
+      .viz-pill:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: rgba(124, 92, 255, 0.1);
+      }
+      .viz-pill-active {
+        background: var(--primary);
+        color: #fff;
+        border-color: var(--primary);
+        box-shadow: 0 2px 12px var(--glow-primary);
+      }
+
+      @media (max-width: 900px) {
+        .feature-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .how-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 600px) {
+        .feature-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo">
+          <div class="logo-icon">S</div>
+          SensAI
+        </a>
+        <div class="navbar-nav">
+          <a href="#problems" class="nav-link active">Problems</a>
+          <a href="#how" class="nav-link">How It Works</a>
+          <a href="#categories" class="nav-link">Categories</a>
+        </div>
+        <div class="navbar-actions">
+          <button class="theme-toggle" title="Toggle theme">☀️</button>
+          <a href="sign-in.html" class="btn btn-ghost btn-sm">Sign In</a>
+          <a href="sign-up.html" class="btn btn-primary btn-sm">Start Free →</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-glow"></div>
+      <div class="container">
+        <div class="hero-eyebrow">
+          ✨ 75 Curated DSA Problems · Free to Start
+        </div>
+
+        <h1>
+          Crack <span class="hero-accent">Coding</span><br />
+          Interviews with<br />
+          <span class="hero-accent">Blind 75</span>
+        </h1>
+
+        <p>
+          Interactive visualizers, multi-language solutions, and gamified
+          progress tracking — built for freshers and college students who want
+          to land the job.
+        </p>
+
+        <div class="hero-actions">
+          <a href="sign-up.html" class="btn btn-primary btn-xl">
+            Start Practicing Free 🚀
+          </a>
+          <a href="#problems" class="btn btn-ghost btn-xl"> Browse Problems </a>
+        </div>
+
+        <!-- Stats bar -->
+        <div class="hero-stats mt-8">
+          <div class="hero-stat">
+            <div class="hero-stat-value">75</div>
+            <div class="hero-stat-label">Curated Problems</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">7</div>
+            <div class="hero-stat-label">Visualizer Types</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">3</div>
+            <div class="hero-stat-label">Languages</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">100%</div>
+            <div class="hero-stat-label">Free to Start</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature tiles -->
+    <section class="container" style="padding-bottom: 80px">
+      <div class="text-center">
+        <div class="section-eyebrow">Why SensAI</div>
+        <h2 style="color: var(--foreground)">
+          Everything you need to prep, nothing you don't
+        </h2>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-tile animate-up">
+          <div class="feature-icon">🎯</div>
+          <div class="feature-title">Interactive Visualizers</div>
+          <div class="feature-desc">
+            Watch algorithms run step-by-step. Trees, graphs, arrays, DP tables
+            — see the logic, don't just read it.
+          </div>
+        </div>
+        <div class="feature-tile animate-up">
+          <div class="feature-icon">🌐</div>
+          <div class="feature-title">3 Languages, 1 Platform</div>
+          <div class="feature-desc">
+            Switch between JavaScript, Python, and Java solutions instantly.
+            Learn patterns, not syntax.
+          </div>
+        </div>
+        <div class="feature-tile animate-up">
+          <div class="feature-icon">📊</div>
+          <div class="feature-title">Progress Tracking</div>
+          <div class="feature-desc">
+            Daily streaks, completion rings, per-category progress bars. Stay
+            motivated with data that matters.
+          </div>
+        </div>
+        <div class="feature-tile animate-up">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-title">Blind 75 Only</div>
+          <div class="feature-desc">
+            No filler. The exact 75 problems that top engineers at FAANG say
+            matter most for interviews.
+          </div>
+        </div>
+        <div class="feature-tile animate-up">
+          <div class="feature-icon">🔍</div>
+          <div class="feature-title">Smart Filters</div>
+          <div class="feature-desc">
+            Filter by difficulty, category, or status. Find exactly the type of
+            problem you need to practice today.
+          </div>
+        </div>
+        <div class="feature-tile animate-up">
+          <div class="feature-icon">🆓</div>
+          <div class="feature-title">Free Forever Core</div>
+          <div class="feature-desc">
+            60+ free problems with full visualizers and solutions. Premium
+            unlocks every 6th problem for deeper practice.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how" class="container" style="padding-bottom: 80px">
+      <div class="text-center">
+        <div class="section-eyebrow">How It Works</div>
+        <h2 style="color: var(--foreground)">
+          From zero to interview-ready in 3 steps
+        </h2>
+      </div>
+      <div class="how-grid">
+        <div class="how-step">
+          <div class="how-step-num">1</div>
+          <div class="how-step-title">Pick a Problem</div>
+          <div class="how-step-desc">
+            Browse 17 categories. Filter by difficulty. Start with Easy and work
+            your way up — no pressure, no timer.
+          </div>
+        </div>
+        <div class="how-step">
+          <div class="how-step-num">2</div>
+          <div class="how-step-title">Watch It Visualized</div>
+          <div class="how-step-desc">
+            Step through the algorithm frame by frame. Play, pause, rewind.
+            Actually understand why it works.
+          </div>
+        </div>
+        <div class="how-step">
+          <div class="how-step-num">3</div>
+          <div class="how-step-title">Read the Solution</div>
+          <div class="how-step-desc">
+            Compare JS, Python, and Java side by side. Copy, study, and
+            internalize the pattern — not just the answer.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visualizer Types -->
+    <section class="container" style="padding-bottom: 80px">
+      <div class="text-center">
+        <div class="section-eyebrow">Visualizer Types</div>
+        <h2 style="color: var(--foreground)">
+          7 types of visualizations — built in
+        </h2>
+        <p style="max-width: 480px; margin: 12px auto 0">
+          Every data structure has its own visual engine. No more reading dry
+          pseudocode.
+        </p>
+      </div>
+      <div class="viz-pills">
+        <span class="viz-pill viz-pill-active">Array Stepping</span>
+        <span class="viz-pill">Two Pointer</span>
+        <span class="viz-pill">Sliding Window</span>
+        <span class="viz-pill">Tree Traversal</span>
+        <span class="viz-pill">Graph BFS/DFS</span>
+        <span class="viz-pill">DP Table</span>
+        <span class="viz-pill">Linked List</span>
+      </div>
+      <div class="text-center mt-6">
+        <a href="problem.html" class="btn btn-ghost btn-lg">See Live Demo →</a>
+      </div>
+    </section>
+
+    <!-- Problems Section -->
+    <section id="problems" class="container" style="padding-bottom: 48px">
+      <div class="section-eyebrow">Problem List</div>
+
+      <!-- Filter Bar -->
+      <div class="card card-flat mb-4" style="padding: 16px">
+        <div class="flex items-center gap-3" style="flex-wrap: wrap">
+          <div class="input-wrapper" style="flex: 1; min-width: 200px">
+            <span class="input-icon">🔍</span>
+            <input
+              type="text"
+              id="problem-search"
+              class="input"
+              placeholder="Search problems..."
+            />
+          </div>
+          <div class="filter-chips" data-filter-group="multi">
+            <button class="chip" data-value="easy">Easy</button>
+            <button class="chip" data-value="medium">Medium</button>
+            <button class="chip" data-value="hard">Hard</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem List Header -->
+      <div class="section-header">
+        <span class="section-title">Preview — 10 of 75 problems</span>
+        <a href="sign-up.html" class="text-xs text-primary font-bold"
+          >Sign up to unlock all →</a
+        >
+      </div>
+
+      <!-- Problem List -->
+      <div class="problem-list" id="problem-list-guest"></div>
+
+      <!-- Smart teaser (not a boring banner) -->
+      <div class="teaser-card">
+        <div class="teaser-card-content">
+          <div style="font-size: 2.5rem; margin-bottom: 8px">🔒</div>
+          <div class="teaser-title">65 More Problems Waiting</div>
+          <div class="teaser-sub">
+            Create a free account to unlock the full Blind 75 — with progress
+            tracking, streaks, and visualizers.
+          </div>
+          <div class="teaser-actions">
+            <a href="sign-up.html" class="btn-white">Create Free Account →</a>
+            <a href="sign-in.html" class="btn-outline-white">Sign In</a>
+          </div>
+          <div
+            style="
+              margin-top: 20px;
+              font-size: 0.8125rem;
+              color: rgba(255, 255, 255, 0.6);
+            "
+          >
+            No credit card required · Free forever for core problems
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Bento Grid -->
+    <section id="categories" class="container" style="padding-bottom: 96px">
+      <div
+        class="flex justify-between items-center mb-6"
+        style="flex-wrap: wrap; gap: 12px"
+      >
+        <div>
+          <div class="section-eyebrow">Categories</div>
+          <h2 style="color: var(--foreground)">17 Topic Areas</h2>
+        </div>
+        <a href="sign-up.html" class="btn btn-ghost btn-sm">View All →</a>
+      </div>
+
+      <div class="category-bento">
+        <div class="category-card category-card-lg">
+          <div class="category-card-icon">🗂️</div>
+          <div class="category-card-name">Arrays & Hashing</div>
+          <div class="category-card-count">
+            9 problems · Foundation of everything
+          </div>
+          <div class="category-card-progress">
+            <div class="category-card-bar" style="width: 33%"></div>
+          </div>
+        </div>
+        <div class="category-card category-card-lg">
+          <div class="category-card-icon">🌲</div>
+          <div class="category-card-name">Trees</div>
+          <div class="category-card-count">
+            11 problems · Most common interview topic
+          </div>
+          <div class="category-card-progress">
+            <div class="category-card-bar" style="width: 36%"></div>
+          </div>
+        </div>
+        <div class="category-card">
+          <div class="category-card-icon">👉</div>
+          <div class="category-card-name">Two Pointers</div>
+          <div class="category-card-count">5 problems</div>
+          <div class="category-card-progress">
+            <div class="category-card-bar" style="width: 20%"></div>
+          </div>
+        </div>
+        <div class="category-card">
+          <div class="category-card-icon">🪟</div>
+          <div class="category-card-name">Sliding Window</div>
+          <div class="category-card-count">4 problems</div>
+          <div class="category-card-progress">
+            <div class="category-card-bar" style="width: 25%"></div>
+          </div>
+        </div>
+        <div class="category-card">
+          <div class="category-card-icon">📚</div>
+          <div class="category-card-name">Stack</div>
+          <div class="category-card-count">3 problems</div>
+          <div class="category-card-progress">
+            <div class="category-card-bar" style="width: 33%"></div>
+          </div>
+        </div>
+        <div class="category-card">
+          <div class="category-card-icon">🔗</div>
+          <div class="category-card-name">Linked List</div>
+          <div class="category-card-count">6 problems</div>
+          <div class="category-card-progress">
+            <div class="category-card-bar" style="width: 17%"></div>
+          </div>
+        </div>
+        <div class="category-card">
+          <div class="category-card-icon">🗺️</div>
+          <div class="category-card-name">Graphs</div>
+          <div class="category-card-count">8 problems</div>
+          <div class="category-card-progress">
+            <div class="category-card-bar" style="width: 13%"></div>
+          </div>
+        </div>
+        <div class="category-card">
+          <div class="category-card-icon">🧠</div>
+          <div class="category-card-name">Dynamic Programming</div>
+          <div class="category-card-count">11 problems</div>
+          <div class="category-card-progress">
+            <div class="category-card-bar" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="category-card">
+          <div class="category-card-icon">🔍</div>
+          <div class="category-card-name">Binary Search</div>
+          <div class="category-card-count">4 problems</div>
+          <div class="category-card-progress">
+            <div class="category-card-bar" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="category-card">
+          <div class="category-card-icon">⏱️</div>
+          <div class="category-card-name">Heap / Priority Q</div>
+          <div class="category-card-count">5 problems</div>
+          <div class="category-card-progress">
+            <div class="category-card-bar" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="category-card">
+          <div class="category-card-icon">↩️</div>
+          <div class="category-card-name">Backtracking</div>
+          <div class="category-card-count">4 problems</div>
+          <div class="category-card-progress">
+            <div class="category-card-bar" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="category-card">
+          <div class="category-card-icon">💰</div>
+          <div class="category-card-name">Greedy</div>
+          <div class="category-card-count">3 problems</div>
+          <div class="category-card-progress">
+            <div class="category-card-bar" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div
+        class="navbar-logo"
+        style="justify-content: center; margin-bottom: 12px"
+      >
         <div class="logo-icon">S</div>
         SensAI
-      </a>
-      <div class="navbar-nav">
-        <a href="index.html" class="nav-link active">Problems</a>
-        <a href="sign-in.html" class="nav-link">Dashboard</a>
       </div>
-      <div class="navbar-actions">
-        <button class="theme-toggle" title="Toggle theme">☀️</button>
-        <a href="sign-in.html" class="btn btn-ghost btn-sm">Sign In</a>
-        <a href="sign-up.html" class="btn btn-primary btn-sm">Sign Up Free</a>
-      </div>
-    </div>
-  </nav>
+      <div>© 2026 SensAI · Built for engineers who want to master DSA</div>
+    </footer>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="container">
-      <h1>Master DSA with<br><span class="hero-accent">Blind 75</span></h1>
-      <p>75 hand-picked problems with interactive visualizers, multi-language solutions, and progress tracking — completely free to start.</p>
-      <div class="hero-actions">
-        <a href="sign-up.html" class="btn btn-primary btn-lg">Start Practicing Free</a>
-        <a href="#problems" class="btn btn-ghost btn-lg">Browse Problems</a>
-      </div>
+    <script src="shared.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        renderProblemList("problem-list-guest", PROBLEMS.slice(0, 10), false);
 
-      <!-- Mini stats row -->
-      <div class="flex items-center gap-4 mt-8" style="justify-content:center; flex-wrap:wrap;">
-        <div class="flex items-center gap-2 text-sm text-muted">
-          <span>✅</span><span>75 curated problems</span>
-        </div>
-        <div class="flex items-center gap-2 text-sm text-muted">
-          <span>🎯</span><span>Interactive visualizers</span>
-        </div>
-        <div class="flex items-center gap-2 text-sm text-muted">
-          <span>🌐</span><span>JS, Python, Java</span>
-        </div>
-        <div class="flex items-center gap-2 text-sm text-muted">
-          <span>🆓</span><span>Free to start</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Problems Section -->
-  <section id="problems" class="container page-content">
-
-    <!-- Filter Bar -->
-    <div class="card mb-4" style="padding:16px;">
-      <div class="flex items-center gap-3" style="flex-wrap:wrap;">
-        <div class="input-wrapper" style="flex:1;min-width:200px;">
-          <span class="input-icon">🔍</span>
-          <input type="text" id="problem-search" class="input" placeholder="Search problems..." />
-        </div>
-        <div class="filter-chips" data-filter-group="multi">
-          <button class="chip" data-value="easy">Easy</button>
-          <button class="chip" data-value="medium">Medium</button>
-          <button class="chip" data-value="hard">Hard</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Problem List Header -->
-    <div class="section-header">
-      <span class="section-title">Problems — Preview (10 of 75)</span>
-      <span class="text-xs text-muted">Sign up to unlock all 75</span>
-    </div>
-
-    <!-- Problem List -->
-    <div class="problem-list" id="problem-list-guest"></div>
-
-    <!-- Sign up banner -->
-    <div class="sign-up-banner mt-4">
-      🔒 <strong>65 more problems</strong> — <a href="sign-up.html">Create a free account</a> to unlock the full Blind 75 with progress tracking, visualizers, and multi-language solutions.
-    </div>
-
-    <!-- Category Preview -->
-    <div class="mt-8">
-      <div class="section-header mb-4">
-        <span class="section-title">17 Problem Categories</span>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;">
-        <div class="card" style="padding:12px;">
-          <div class="font-semibold text-sm">Arrays & Hashing</div>
-          <div class="text-xs text-muted mt-1">9 problems</div>
-        </div>
-        <div class="card" style="padding:12px;">
-          <div class="font-semibold text-sm">Two Pointers</div>
-          <div class="text-xs text-muted mt-1">5 problems</div>
-        </div>
-        <div class="card" style="padding:12px;">
-          <div class="font-semibold text-sm">Sliding Window</div>
-          <div class="text-xs text-muted mt-1">4 problems</div>
-        </div>
-        <div class="card" style="padding:12px;">
-          <div class="font-semibold text-sm">Trees</div>
-          <div class="text-xs text-muted mt-1">11 problems</div>
-        </div>
-        <div class="card" style="padding:12px;">
-          <div class="font-semibold text-sm">Dynamic Programming</div>
-          <div class="text-xs text-muted mt-1">11 problems</div>
-        </div>
-        <div class="card" style="padding:12px;">
-          <div class="font-semibold text-sm">Graphs</div>
-          <div class="text-xs text-muted mt-1">8 problems</div>
-        </div>
-        <div class="card" style="padding:12px;">
-          <div class="font-semibold text-sm">Linked List</div>
-          <div class="text-xs text-muted mt-1">6 problems</div>
-        </div>
-        <div class="card" style="padding:12px;">
-          <div class="font-semibold text-sm">+ 9 more categories</div>
-          <div class="text-xs text-muted mt-1">21 problems</div>
-        </div>
-      </div>
-    </div>
-
-  </section>
-
-  <footer class="footer">
-    <div>© 2026 SensAI · Built for engineers who want to master DSA</div>
-  </footer>
-
-  <script src="shared.js"></script>
-  <script>
-    // Render first 10 problems for guest
-    document.addEventListener('DOMContentLoaded', () => {
-      renderProblemList('problem-list-guest', PROBLEMS.slice(0, 10), false);
-    });
-  </script>
-</body>
+        // Animate viz pills on click
+        document.querySelectorAll(".viz-pill").forEach((pill) => {
+          pill.addEventListener("click", () => {
+            document
+              .querySelectorAll(".viz-pill")
+              .forEach((p) => p.classList.remove("viz-pill-active"));
+            pill.classList.add("viz-pill-active");
+          });
+        });
+      });
+    </script>
+  </body>
 </html>
