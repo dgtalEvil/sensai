@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Invert Binary Tree — SensAI</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .two-col-problem { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+    @media (max-width: 900px) { .two-col-problem { grid-template-columns: 1fr; } }
+    .problem-description { font-size: 0.9375rem; line-height: 1.7; color: var(--foreground); }
+    .example-block { background: var(--muted); border-radius: var(--radius); padding: 14px; margin-top: 8px; font-size: 0.8125rem; }
+    .example-label { font-weight: 600; color: var(--foreground); margin-bottom: 6px; }
+    .example-io { font-family: monospace; color: var(--muted-foreground); line-height: 1.6; }
+    .constraints-list { list-style: none; padding: 0; }
+    .constraints-list li { font-size: 0.8125rem; color: var(--muted-foreground); padding: 3px 0; font-family: monospace; }
+    .constraints-list li::before { content: '•'; margin-right: 8px; color: var(--primary); }
+    .complexity-row { display: flex; gap: 16px; margin-top: 12px; }
+    .complexity-badge { font-size: 0.75rem; padding: 3px 10px; border-radius: 4px; background: var(--muted); color: var(--muted-foreground); font-family: monospace; }
+
+    /* Tree SVG Visualizer */
+    .tree-node circle { fill: var(--card); stroke: var(--border); stroke-width: 2; transition: fill 0.3s, stroke 0.3s; }
+    .tree-node.active circle { fill: var(--primary); stroke: var(--primary); }
+    .tree-node text { fill: var(--foreground); font-size: 14px; font-weight: 600; font-family: monospace; text-anchor: middle; dominant-baseline: central; }
+    .tree-node.active text { fill: var(--primary-foreground); }
+    .tree-edge { stroke: var(--border); stroke-width: 2; }
+    .viz-step { display: none; }
+    .viz-step.active { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
+    .viz-caption { font-size: 0.75rem; color: var(--muted-foreground); text-align: center; background: var(--muted); padding: 6px 12px; border-radius: 99px; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">
+        <div class="logo-icon">S</div>
+        SensAI
+      </a>
+      <div class="navbar-nav">
+        <a href="dashboard.html" class="nav-link">Problems</a>
+        <a href="stats.html" class="nav-link">Stats</a>
+      </div>
+      <div class="navbar-actions">
+        <button class="theme-toggle">☀️</button>
+        <div style="position:relative;">
+          <div class="avatar">M</div>
+          <div class="avatar-dropdown">
+            <a href="stats.html" class="dropdown-item">📊 My Stats</a>
+            <div class="dropdown-sep"></div>
+            <a href="index.html" class="dropdown-item">🚪 Sign Out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container page-content">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb mb-4">
+      <a href="dashboard.html">Dashboard</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="dashboard.html">Trees</a>
+      <span class="breadcrumb-sep">/</span>
+      <span class="breadcrumb-current">Invert Binary Tree</span>
+    </div>
+
+    <div class="two-col-problem">
+
+      <!-- LEFT: Problem Info -->
+      <div>
+        <!-- Header -->
+        <div class="flex items-center gap-2 mb-3" style="flex-wrap:wrap;">
+          <h2 style="color:var(--foreground);">Invert Binary Tree</h2>
+        </div>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="badge badge-easy">Easy</span>
+          <span class="badge badge-category">Trees</span>
+          <span class="text-xs text-muted">#7 · Blind 75</span>
+        </div>
+
+        <!-- Description -->
+        <div class="card mb-4">
+          <h4 class="mb-3">Problem</h4>
+          <div class="problem-description">
+            Given the <code style="background:var(--muted);padding:2px 6px;border-radius:4px;font-size:0.8125rem;">root</code> of a binary tree, invert the tree, and return its root.
+          </div>
+
+          <!-- Examples -->
+          <div class="mt-4">
+            <div class="example-label">Example 1</div>
+            <div class="example-block">
+              <div class="example-io"><strong>Input:</strong>  root = [4,2,7,1,3,6,9]</div>
+              <div class="example-io"><strong>Output:</strong> [4,7,2,9,6,3,1]</div>
+              <div class="example-io mt-1" style="color:var(--muted-foreground);">Explanation: Swap left and right children at every node recursively.</div>
+            </div>
+            <div class="example-label mt-3">Example 2</div>
+            <div class="example-block">
+              <div class="example-io"><strong>Input:</strong>  root = [2,1,3]</div>
+              <div class="example-io"><strong>Output:</strong> [2,3,1]</div>
+            </div>
+            <div class="example-label mt-3">Example 3</div>
+            <div class="example-block">
+              <div class="example-io"><strong>Input:</strong>  root = []</div>
+              <div class="example-io"><strong>Output:</strong> []</div>
+            </div>
+          </div>
+
+          <!-- Constraints -->
+          <div class="mt-4">
+            <div class="example-label">Constraints</div>
+            <ul class="constraints-list mt-2">
+              <li>The number of nodes in the tree is in the range [0, 100]</li>
+              <li>-100 ≤ Node.val ≤ 100</li>
+            </ul>
+          </div>
+
+          <!-- Complexity -->
+          <div class="complexity-row">
+            <span class="complexity-badge">Time: O(n)</span>
+            <span class="complexity-badge">Space: O(h) — recursion stack</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-2">
+          <button id="mark-solved-btn" class="btn btn-primary" style="flex:1;">Mark as Solved</button>
+          <button class="btn btn-ghost" style="flex:1;">Mark as Attempted</button>
+        </div>
+      </div>
+
+      <!-- RIGHT: Visualizer -->
+      <div>
+        <div class="visualizer-panel">
+          <div class="visualizer-header">
+            <span class="visualizer-title">Tree Visualizer</span>
+            <span class="visualizer-type-badge">Binary Tree · BFS Invert</span>
+          </div>
+
+          <div class="visualizer-body" style="flex-direction:column;gap:12px;">
+
+            <!-- Step 1: Original tree -->
+            <div class="viz-step active" data-step="0">
+              <div class="viz-caption">Step 1 / 5 — Original tree: root = [4, 2, 7, 1, 3, 6, 9]</div>
+              <svg width="280" height="180" viewBox="0 0 280 180">
+                <line class="tree-edge" x1="140" y1="32" x2="80" y2="90"/>
+                <line class="tree-edge" x1="140" y1="32" x2="200" y2="90"/>
+                <line class="tree-edge" x1="80" y1="90" x2="50" y2="148"/>
+                <line class="tree-edge" x1="80" y1="90" x2="110" y2="148"/>
+                <line class="tree-edge" x1="200" y1="90" x2="170" y2="148"/>
+                <line class="tree-edge" x1="200" y1="90" x2="230" y2="148"/>
+                <g class="tree-node"><circle cx="140" cy="32" r="22"/><text x="140" y="32">4</text></g>
+                <g class="tree-node"><circle cx="80" cy="90" r="22"/><text x="80" y="90">2</text></g>
+                <g class="tree-node"><circle cx="200" cy="90" r="22"/><text x="200" y="90">7</text></g>
+                <g class="tree-node"><circle cx="50" cy="148" r="22"/><text x="50" y="148">1</text></g>
+                <g class="tree-node"><circle cx="110" cy="148" r="22"/><text x="110" y="148">3</text></g>
+                <g class="tree-node"><circle cx="170" cy="148" r="22"/><text x="170" y="148">6</text></g>
+                <g class="tree-node"><circle cx="230" cy="148" r="22"/><text x="230" y="148">9</text></g>
+              </svg>
+            </div>
+
+            <!-- Step 2: Visit root -->
+            <div class="viz-step" data-step="1">
+              <div class="viz-caption">Step 2 / 5 — Visit root (4): swap left (2) ↔ right (7)</div>
+              <svg width="280" height="180" viewBox="0 0 280 180">
+                <line class="tree-edge" x1="140" y1="32" x2="80" y2="90"/>
+                <line class="tree-edge" x1="140" y1="32" x2="200" y2="90"/>
+                <line class="tree-edge" x1="80" y1="90" x2="50" y2="148"/>
+                <line class="tree-edge" x1="80" y1="90" x2="110" y2="148"/>
+                <line class="tree-edge" x1="200" y1="90" x2="170" y2="148"/>
+                <line class="tree-edge" x1="200" y1="90" x2="230" y2="148"/>
+                <g class="tree-node active"><circle cx="140" cy="32" r="22"/><text x="140" y="32">4</text></g>
+                <g class="tree-node"><circle cx="80" cy="90" r="22"/><text x="80" y="90">2</text></g>
+                <g class="tree-node"><circle cx="200" cy="90" r="22"/><text x="200" y="90">7</text></g>
+                <g class="tree-node"><circle cx="50" cy="148" r="22"/><text x="50" y="148">1</text></g>
+                <g class="tree-node"><circle cx="110" cy="148" r="22"/><text x="110" y="148">3</text></g>
+                <g class="tree-node"><circle cx="170" cy="148" r="22"/><text x="170" y="148">6</text></g>
+                <g class="tree-node"><circle cx="230" cy="148" r="22"/><text x="230" y="148">9</text></g>
+              </svg>
+            </div>
+
+            <!-- Step 3: After root swap -->
+            <div class="viz-step" data-step="2">
+              <div class="viz-caption">Step 3 / 5 — Root swapped: left=7, right=2. Visit node 7.</div>
+              <svg width="280" height="180" viewBox="0 0 280 180">
+                <line class="tree-edge" x1="140" y1="32" x2="80" y2="90"/>
+                <line class="tree-edge" x1="140" y1="32" x2="200" y2="90"/>
+                <line class="tree-edge" x1="80" y1="90" x2="50" y2="148"/>
+                <line class="tree-edge" x1="80" y1="90" x2="110" y2="148"/>
+                <line class="tree-edge" x1="200" y1="90" x2="170" y2="148"/>
+                <line class="tree-edge" x1="200" y1="90" x2="230" y2="148"/>
+                <g class="tree-node"><circle cx="140" cy="32" r="22"/><text x="140" y="32">4</text></g>
+                <g class="tree-node active"><circle cx="80" cy="90" r="22"/><text x="80" y="90">7</text></g>
+                <g class="tree-node"><circle cx="200" cy="90" r="22"/><text x="200" y="90">2</text></g>
+                <g class="tree-node"><circle cx="50" cy="148" r="22"/><text x="50" y="148">6</text></g>
+                <g class="tree-node"><circle cx="110" cy="148" r="22"/><text x="110" y="148">9</text></g>
+                <g class="tree-node"><circle cx="170" cy="148" r="22"/><text x="170" y="148">1</text></g>
+                <g class="tree-node"><circle cx="230" cy="148" r="22"/><text x="230" y="148">3</text></g>
+              </svg>
+            </div>
+
+            <!-- Step 4: Visit node 2 -->
+            <div class="viz-step" data-step="3">
+              <div class="viz-caption">Step 4 / 5 — Visit node 2: swap left (1) ↔ right (3)</div>
+              <svg width="280" height="180" viewBox="0 0 280 180">
+                <line class="tree-edge" x1="140" y1="32" x2="80" y2="90"/>
+                <line class="tree-edge" x1="140" y1="32" x2="200" y2="90"/>
+                <line class="tree-edge" x1="80" y1="90" x2="50" y2="148"/>
+                <line class="tree-edge" x1="80" y1="90" x2="110" y2="148"/>
+                <line class="tree-edge" x1="200" y1="90" x2="170" y2="148"/>
+                <line class="tree-edge" x1="200" y1="90" x2="230" y2="148"/>
+                <g class="tree-node"><circle cx="140" cy="32" r="22"/><text x="140" y="32">4</text></g>
+                <g class="tree-node"><circle cx="80" cy="90" r="22"/><text x="80" y="90">7</text></g>
+                <g class="tree-node active"><circle cx="200" cy="90" r="22"/><text x="200" y="90">2</text></g>
+                <g class="tree-node"><circle cx="50" cy="148" r="22"/><text x="50" y="148">9</text></g>
+                <g class="tree-node"><circle cx="110" cy="148" r="22"/><text x="110" y="148">6</text></g>
+                <g class="tree-node"><circle cx="170" cy="148" r="22"/><text x="170" y="148">1</text></g>
+                <g class="tree-node"><circle cx="230" cy="148" r="22"/><text x="230" y="148">3</text></g>
+              </svg>
+            </div>
+
+            <!-- Step 5: Final result -->
+            <div class="viz-step" data-step="4">
+              <div class="viz-caption">Step 5 / 5 — Done! Inverted tree: [4, 7, 2, 9, 6, 3, 1] ✓</div>
+              <svg width="280" height="180" viewBox="0 0 280 180">
+                <line class="tree-edge" x1="140" y1="32" x2="80" y2="90"/>
+                <line class="tree-edge" x1="140" y1="32" x2="200" y2="90"/>
+                <line class="tree-edge" x1="80" y1="90" x2="50" y2="148"/>
+                <line class="tree-edge" x1="80" y1="90" x2="110" y2="148"/>
+                <line class="tree-edge" x1="200" y1="90" x2="170" y2="148"/>
+                <line class="tree-edge" x1="200" y1="90" x2="230" y2="148"/>
+                <g class="tree-node"><circle cx="140" cy="32" r="22" style="stroke:var(--easy);stroke-width:3;"/><text x="140" y="32">4</text></g>
+                <g class="tree-node"><circle cx="80" cy="90" r="22" style="stroke:var(--easy);stroke-width:3;"/><text x="80" y="90">7</text></g>
+                <g class="tree-node"><circle cx="200" cy="90" r="22" style="stroke:var(--easy);stroke-width:3;"/><text x="200" y="90">2</text></g>
+                <g class="tree-node"><circle cx="50" cy="148" r="22" style="stroke:var(--easy);stroke-width:3;"/><text x="50" y="148">9</text></g>
+                <g class="tree-node"><circle cx="110" cy="148" r="22" style="stroke:var(--easy);stroke-width:3;"/><text x="110" y="148">6</text></g>
+                <g class="tree-node"><circle cx="170" cy="148" r="22" style="stroke:var(--easy);stroke-width:3;"/><text x="170" y="148">3</text></g>
+                <g class="tree-node"><circle cx="230" cy="148" r="22" style="stroke:var(--easy);stroke-width:3;"/><text x="230" y="148">1</text></g>
+              </svg>
+            </div>
+
+          </div>
+
+          <!-- Controls -->
+          <div class="visualizer-controls">
+            <button class="btn btn-ghost btn-sm prev-btn">← Prev</button>
+            <span class="step-counter">Step 1 / 5</span>
+            <button class="btn btn-ghost btn-sm next-btn">Next →</button>
+            <button class="btn btn-secondary btn-sm play-btn">▶ Play</button>
+            <span class="speed-label">Speed</span>
+            <input type="range" class="speed-slider" min="1" max="10" value="5" style="width:80px;" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code Section -->
+    <div class="mt-6">
+      <h3 class="mb-3" style="color:var(--foreground);">Solution</h3>
+      <div class="code-block">
+        <div class="lang-tabs">
+          <button class="lang-tab" data-lang="js">JavaScript</button>
+          <button class="lang-tab" data-lang="python">Python</button>
+          <button class="lang-tab" data-lang="java">Java</button>
+        </div>
+
+        <!-- JS -->
+        <div class="lang-panel" data-lang="js">
+          <div class="code-header">
+            <span class="code-lang">javascript</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="code-pre"><code>/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *   this.val = (val===undefined ? 0 : val)
+ *   this.left = (left===undefined ? null : left)
+ *   this.right = (right===undefined ? null : right)
+ * }
+ */
+
+// Recursive DFS — O(n) time, O(h) space
+var invertTree = function(root) {
+  if (!root) return null;
+
+  // Swap children
+  [root.left, root.right] = [root.right, root.left];
+
+  // Recurse into subtrees
+  invertTree(root.left);
+  invertTree(root.right);
+
+  return root;
+};
+
+// Iterative BFS — O(n) time, O(n) space
+var invertTreeBFS = function(root) {
+  if (!root) return null;
+
+  const queue = [root];
+
+  while (queue.length) {
+    const node = queue.shift();
+    [node.left, node.right] = [node.right, node.left];
+
+    if (node.left)  queue.push(node.left);
+    if (node.right) queue.push(node.right);
+  }
+
+  return root;
+};</code></pre>
+        </div>
+
+        <!-- Python -->
+        <div class="lang-panel" data-lang="python">
+          <div class="code-header">
+            <span class="code-lang">python</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="code-pre"><code># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    # Recursive DFS — O(n) time, O(h) space
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root:
+            return None
+
+        # Swap children
+        root.left, root.right = root.right, root.left
+
+        # Recurse into subtrees
+        self.invertTree(root.left)
+        self.invertTree(root.right)
+
+        return root
+
+    # Iterative BFS — O(n) time, O(n) space
+    def invertTreeBFS(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root:
+            return None
+
+        from collections import deque
+        queue = deque([root])
+
+        while queue:
+            node = queue.popleft()
+            node.left, node.right = node.right, node.left
+
+            if node.left:  queue.append(node.left)
+            if node.right: queue.append(node.right)
+
+        return root</code></pre>
+        </div>
+
+        <!-- Java -->
+        <div class="lang-panel" data-lang="java">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="code-pre"><code>/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int val) { this.val = val; }
+ * }
+ */
+
+class Solution {
+    // Recursive DFS — O(n) time, O(h) space
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) return null;
+
+        // Swap children
+        TreeNode temp = root.left;
+        root.left  = root.right;
+        root.right = temp;
+
+        // Recurse into subtrees
+        invertTree(root.left);
+        invertTree(root.right);
+
+        return root;
+    }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div>© 2026 SensAI</div>
+  </footer>
+
+  <script src="shared.js"></script>
+</body>
+</html>

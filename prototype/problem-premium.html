@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maximum Subarray — SensAI Premium</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .two-col-problem { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+    @media (max-width: 900px) { .two-col-problem { grid-template-columns: 1fr; } }
+    .problem-description { font-size: 0.9375rem; line-height: 1.7; color: var(--foreground); }
+    .example-block { background: var(--muted); border-radius: var(--radius); padding: 14px; margin-top: 8px; font-size: 0.8125rem; }
+    .example-label { font-weight: 600; color: var(--foreground); margin-bottom: 6px; }
+    .example-io { font-family: monospace; color: var(--muted-foreground); line-height: 1.6; }
+    .constraints-list { list-style: none; padding: 0; }
+    .constraints-list li { font-size: 0.8125rem; color: var(--muted-foreground); padding: 3px 0; font-family: monospace; }
+    .constraints-list li::before { content: '•'; margin-right: 8px; color: var(--primary); }
+    .complexity-row { display: flex; gap: 16px; margin-top: 12px; }
+    .complexity-badge { font-size: 0.75rem; padding: 3px 10px; border-radius: 4px; background: var(--muted); color: var(--muted-foreground); font-family: monospace; }
+    .premium-banner {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px;
+      background: var(--premium-bg);
+      border: 1px solid var(--premium);
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+    }
+    .premium-banner-icon { font-size: 1.25rem; }
+    .premium-banner-text { flex: 1; font-size: 0.875rem; color: var(--foreground); }
+    .premium-banner-text span { color: var(--premium); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">
+        <div class="logo-icon">S</div>
+        SensAI
+      </a>
+      <div class="navbar-nav">
+        <a href="dashboard.html" class="nav-link">Problems</a>
+        <a href="stats.html" class="nav-link">Stats</a>
+      </div>
+      <div class="navbar-actions">
+        <button class="theme-toggle">☀️</button>
+        <div style="position:relative;">
+          <div class="avatar">M</div>
+          <div class="avatar-dropdown">
+            <a href="stats.html" class="dropdown-item">📊 My Stats</a>
+            <div class="dropdown-sep"></div>
+            <a href="index.html" class="dropdown-item">🚪 Sign Out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container page-content">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb mb-4">
+      <a href="dashboard.html">Dashboard</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="dashboard.html">Dynamic Programming</a>
+      <span class="breadcrumb-sep">/</span>
+      <span class="breadcrumb-current">Maximum Subarray</span>
+    </div>
+
+    <!-- Premium Banner -->
+    <div class="premium-banner">
+      <span class="premium-banner-icon">👑</span>
+      <div class="premium-banner-text">
+        This is a <span>Premium Problem</span>. Upgrade to unlock the visualizer, full solutions in JS, Python & Java, and all premium problems.
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="alert('Payment integration coming in MVP v2!')">Upgrade — Free Trial</button>
+    </div>
+
+    <div class="two-col-problem">
+
+      <!-- LEFT: Problem Info (visible) -->
+      <div>
+        <div class="flex items-center gap-2 mb-3" style="flex-wrap:wrap;">
+          <h2 style="color:var(--foreground);">Maximum Subarray</h2>
+        </div>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="badge badge-medium">Medium</span>
+          <span class="badge badge-category">Dynamic Programming</span>
+          <span class="badge badge-premium">👑 Premium</span>
+          <span class="text-xs text-muted">#6 · Blind 75</span>
+        </div>
+
+        <!-- Description visible -->
+        <div class="card mb-4">
+          <h4 class="mb-3">Problem</h4>
+          <div class="problem-description">
+            Given an integer array <code style="background:var(--muted);padding:2px 6px;border-radius:4px;font-size:0.8125rem;">nums</code>, find the subarray with the largest sum, and return its sum.
+          </div>
+
+          <div class="mt-4">
+            <div class="example-label">Example 1</div>
+            <div class="example-block">
+              <div class="example-io"><strong>Input:</strong>  nums = [-2,1,-3,4,-1,2,1,-5,4]</div>
+              <div class="example-io"><strong>Output:</strong> 6</div>
+              <div class="example-io mt-1" style="color:var(--muted-foreground);">Explanation: The subarray [4,-1,2,1] has the largest sum 6.</div>
+            </div>
+            <div class="example-label mt-3">Example 2</div>
+            <div class="example-block">
+              <div class="example-io"><strong>Input:</strong>  nums = [1]</div>
+              <div class="example-io"><strong>Output:</strong> 1</div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <div class="example-label">Constraints</div>
+            <ul class="constraints-list mt-2">
+              <li>1 ≤ nums.length ≤ 10⁵</li>
+              <li>-10⁴ ≤ nums[i] ≤ 10⁴</li>
+            </ul>
+          </div>
+
+          <div class="complexity-row">
+            <span class="complexity-badge">Time: O(n)</span>
+            <span class="complexity-badge">Space: O(1)</span>
+          </div>
+        </div>
+
+        <!-- Locked actions -->
+        <div class="flex gap-2">
+          <button class="btn btn-primary" style="flex:1;opacity:0.5;cursor:not-allowed;" disabled>Mark as Solved</button>
+          <button class="btn btn-ghost" style="flex:1;opacity:0.5;cursor:not-allowed;" disabled>Mark as Attempted</button>
+        </div>
+      </div>
+
+      <!-- RIGHT: Visualizer — LOCKED -->
+      <div>
+        <div class="premium-gate-wrapper">
+          <!-- Blurred visualizer underneath -->
+          <div class="premium-gate-blur">
+            <div class="visualizer-panel">
+              <div class="visualizer-header">
+                <span class="visualizer-title">DP Array Visualizer</span>
+                <span class="visualizer-type-badge">Kadane's Algorithm</span>
+              </div>
+              <div class="visualizer-body" style="flex-direction:column;gap:16px;">
+                <div style="display:flex;gap:6px;align-items:flex-end;">
+                  <div style="text-align:center;">
+                    <div style="background:var(--hard);color:#fff;padding:8px 10px;border-radius:4px;font-family:monospace;font-size:0.875rem;margin-bottom:4px;">-2</div>
+                    <div style="font-size:0.625rem;color:var(--muted-foreground);">0</div>
+                  </div>
+                  <div style="text-align:center;">
+                    <div style="background:var(--easy);color:#fff;padding:8px 10px;border-radius:4px;font-family:monospace;font-size:0.875rem;margin-bottom:4px;">1</div>
+                    <div style="font-size:0.625rem;color:var(--muted-foreground);">1</div>
+                  </div>
+                  <div style="text-align:center;">
+                    <div style="background:var(--muted);padding:8px 10px;border-radius:4px;font-family:monospace;font-size:0.875rem;margin-bottom:4px;">-3</div>
+                    <div style="font-size:0.625rem;color:var(--muted-foreground);">2</div>
+                  </div>
+                  <div style="text-align:center;">
+                    <div style="background:var(--primary);color:var(--primary-foreground);padding:8px 10px;border-radius:4px;font-family:monospace;font-size:0.875rem;margin-bottom:4px;">4</div>
+                    <div style="font-size:0.625rem;color:var(--muted-foreground);">3</div>
+                  </div>
+                  <div style="text-align:center;">
+                    <div style="background:var(--muted);padding:8px 10px;border-radius:4px;font-family:monospace;font-size:0.875rem;margin-bottom:4px;">-1</div>
+                    <div style="font-size:0.625rem;color:var(--muted-foreground);">4</div>
+                  </div>
+                  <div style="text-align:center;">
+                    <div style="background:var(--primary);color:var(--primary-foreground);padding:8px 10px;border-radius:4px;font-family:monospace;font-size:0.875rem;margin-bottom:4px;">2</div>
+                    <div style="font-size:0.625rem;color:var(--muted-foreground);">5</div>
+                  </div>
+                  <div style="text-align:center;">
+                    <div style="background:var(--primary);color:var(--primary-foreground);padding:8px 10px;border-radius:4px;font-family:monospace;font-size:0.875rem;margin-bottom:4px;">1</div>
+                    <div style="font-size:0.625rem;color:var(--muted-foreground);">6</div>
+                  </div>
+                </div>
+                <div style="font-size:0.75rem;color:var(--muted-foreground);">currentSum: 6 · maxSum: 6</div>
+              </div>
+              <div class="visualizer-controls" style="opacity:0.5;">
+                <button class="btn btn-ghost btn-sm" disabled>← Prev</button>
+                <span class="step-counter">Step 4 / 9</span>
+                <button class="btn btn-ghost btn-sm" disabled>Next →</button>
+                <button class="btn btn-secondary btn-sm" disabled>▶ Play</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Premium overlay -->
+          <div class="premium-gate-overlay">
+            <div class="premium-lock">🔒</div>
+            <div class="premium-gate-title">Premium Problem</div>
+            <div class="premium-gate-sub">Upgrade to unlock the interactive visualizer and full solutions</div>
+            <div class="premium-gate-actions">
+              <button class="btn btn-primary btn-full" onclick="alert('Payment integration coming in MVP v2!')">Upgrade to Premium</button>
+              <a href="sign-up.html" class="btn btn-ghost btn-full">Sign Up Free</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code Section — LOCKED -->
+    <div class="mt-6">
+      <h3 class="mb-3" style="color:var(--foreground);">Solution</h3>
+      <div class="premium-gate-wrapper">
+        <!-- Blurred code -->
+        <div class="premium-gate-blur">
+          <div class="code-block">
+            <div class="lang-tabs">
+              <button class="lang-tab active" data-lang="js">JavaScript</button>
+              <button class="lang-tab" data-lang="python">Python</button>
+              <button class="lang-tab" data-lang="java">Java</button>
+            </div>
+            <div class="code-header">
+              <span class="code-lang">javascript</span>
+              <button class="copy-btn">Copy</button>
+            </div>
+            <pre class="code-pre"><code>// Kadane's Algorithm — O(n) time, O(1) space
+var maxSubArray = function(nums) {
+  let maxSum = nums[0];
+  let currentSum = nums[0];
+
+  for (let i = 1; i &lt; nums.length; i++) {
+    currentSum = Math.max(nums[i], currentSum + nums[i]);
+    maxSum = Math.max(maxSum, currentSum);
+  }
+
+  return maxSum;
+};</code></pre>
+          </div>
+        </div>
+
+        <!-- Code gate overlay -->
+        <div class="premium-gate-overlay">
+          <div class="premium-lock">🔒</div>
+          <div class="premium-gate-title">Premium Content</div>
+          <div class="premium-gate-sub">Unlock solutions in JavaScript, Python & Java</div>
+          <div class="premium-gate-actions">
+            <button class="btn btn-primary btn-full" onclick="alert('Payment integration coming in MVP v2!')">Upgrade to Premium</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div>© 2026 SensAI</div>
+  </footer>
+
+  <script src="shared.js"></script>
+</body>
+</html>
