@@ -14,7 +14,7 @@ Every phase ends with:
 ### Tasks
 - [ ] Initialize Next.js 14 (App Router, TypeScript, Tailwind CSS)
 - [ ] Install and configure shadcn/ui (`npx shadcn@latest init`)
-- [ ] Install Framer Motion, Recharts, react-d3-tree, date-fns, Lucide React
+- [ ] Install Framer Motion, Recharts, react-d3-tree, date-fns, Lucide React, shiki
 - [ ] Configure `next-themes` for dark/light mode
 - [ ] Set up ESLint + Prettier with project config
 - [ ] Set up absolute imports (`@/`)
@@ -37,18 +37,24 @@ sensai/
 │   ├── api/
 │   │   ├── problems/route.ts
 │   │   ├── problems/[id]/route.ts
+│   │   ├── problems/[id]/solve/route.ts
 │   │   ├── stats/daily/route.ts
+│   │   ├── stats/progress/route.ts
+│   │   ├── bookmarks/route.ts
 │   │   ├── user/profile/route.ts
 │   │   ├── premium/status/route.ts
 │   │   └── webhooks/clerk/route.ts
+│   ├── scripts/
+│   │   └── seed-problems.ts
 │   ├── globals.css
 │   ├── layout.tsx
 │   └── page.tsx
 ├── components/
 │   ├── ui/              (shadcn generated)
 │   ├── layout/          (Navbar, Sidebar, Footer)
-│   ├── problems/        (ProblemCard, FilterBar, ProblemList, DifficultyBadge, TagChip)
-│   ├── stats/           (StatCard, DailyChart, StreakDisplay)
+│   ├── problems/        (ProblemCard, FilterBar, ProblemList, DifficultyBadge, TagChip, CodeBlock, LanguageSwitcher)
+│   ├── visualizers/     (ArrayVisualizer, TwoPointerVisualizer, SlidingWindowVisualizer, TreeVisualizer, GraphVisualizer, DPTableVisualizer, LinkedListVisualizer, VisualizerControls)
+│   ├── stats/           (StatCard, DailyChart, StreakCounter, DailyGoalRing, OverallProgressBar, CategoryProgress)
 │   ├── auth/            (PremiumGate, AuthGuard)
 │   └── shared/          (ThemeToggle, Logo, LoadingSpinner)
 ├── lib/
@@ -89,43 +95,69 @@ sensai/
 ---
 
 ## Phase 3 — API Design & Data Layer
-**Goal:** Build all API routes and Supabase integration.
+**Goal:** Build all API routes, Supabase integration, and seed Blind 75 problems.
 
 ### Tasks
-- [ ] Create Supabase project and run schema migrations (all 5 tables)
+- [ ] Create Supabase project and run schema migrations (all 5 tables + extended problems columns)
 - [ ] Configure RLS policies for all tables
 - [ ] Add Supabase client (browser) and server-side client to `lib/supabase/`
 - [ ] Add TypeScript types generated from Supabase schema (`lib/supabase/types.ts`)
-- [ ] Implement `GET /api/problems` with filter + pagination query params
+- [ ] Write seed script `scripts/seed-problems.ts` — fetch Blind 75 from GitHub, map to schema, set premium pattern (every 6th), insert via service role key
+- [ ] Run seed script locally — verify all 75 problems in Supabase
+- [ ] Implement `GET /api/problems` with search, difficulty, category, status, premium, pagination
 - [ ] Implement `GET /api/problems/[id]` (auth check + premium gate)
+- [ ] Implement `POST /api/problems/[id]/solve` (mark solved/attempted, update daily_stats)
 - [ ] Implement `GET /api/stats/daily` (auth required)
+- [ ] Implement `GET /api/stats/progress` (overall + per-category counts, auth required)
 - [ ] Implement `GET /api/user/profile` (auth required)
 - [ ] Implement `GET /api/premium/status` (auth required)
+- [ ] Implement `POST /api/bookmarks` (add/remove bookmark, auth required)
 - [ ] Implement `POST /api/webhooks/clerk` (user sync on create/update)
 - [ ] Add middleware.ts for Clerk route protection
 
-**Phase 3 exit criteria:** All API routes return correct data/errors, RLS enforced, middleware protecting auth routes, no lint errors.
+**Phase 3 exit criteria:** All 75 problems seeded, all API routes return correct data/errors, RLS enforced, middleware protecting auth routes, no lint errors.
 
 ---
 
 ## Phase 4 — Component Library
 **Goal:** Build all custom components on top of shadcn primitives.
 
-### Tasks
-- [ ] `ProblemCard` — shows title, difficulty, tags, solved state, bookmark button
-- [ ] `ProblemList` — paginated list of ProblemCards with empty/loading states
-- [ ] `DataTable` — shadcn table wrapper with sorting + pagination
-- [ ] `StatCard` — metric display (number, label, trend arrow)
-- [ ] `DailyChart` — Recharts line/bar chart for daily solve activity
-- [ ] `StreakDisplay` — current streak with visual indicator
-- [ ] `TreeVisualizer` — react-d3-tree wrapper for tree problem visualization
-- [ ] `FilterBar` — full filter UI (difficulty chips, tag multi-select, status toggle)
-- [ ] `TabsNav` — dashboard tab navigation (All / Daily / Bookmarked)
-- [ ] `AuthGuard` — wrapper that shows sign-in prompt for guests
-- [ ] `LoadingSpinner` and `Skeleton` variants for all data states
-- [ ] `Logo` component
+### Problem UI Components
+- [ ] `ProblemCard` — title, difficulty badge, category tag, lock icon for premium, solved state, bookmark button
+- [ ] `ProblemList` — paginated list of ProblemCards with empty/loading skeleton states
+- [ ] `DifficultyBadge` — color-coded easy (green) / medium (yellow) / hard (red) chip
+- [ ] `TagChip` — category tag pill
+- [ ] `FilterBar` — search input + difficulty multi-select chips + category tabs + status toggle + premium filter
+- [ ] `PremiumGate` — blur overlay with "Sign up" (guest) or "Upgrade" (registered) CTA
+- [ ] `CodeBlock` — shiki syntax-highlighted code display with copy-to-clipboard button
+- [ ] `LanguageSwitcher` — JS / Python / Java tab switcher, persists language to localStorage
+- [ ] `AuthGuard` — wrapper redirecting guests to sign-in for protected content
 
-**Phase 4 exit criteria:** All components render in isolation in both themes/variants, no lint errors.
+### Visualizer Components
+- [ ] `VisualizerControls` — prev/next step buttons, play/pause toggle, speed slider, step counter, input editor
+- [ ] `ArrayVisualizer` — animated array boxes with index labels and pointer highlight arrows
+- [ ] `TwoPointerVisualizer` — array with two distinct animated pointer indicators (left/right)
+- [ ] `SlidingWindowVisualizer` — array with animated highlighted window region
+- [ ] `TreeVisualizer` — react-d3-tree wrapper with node highlight on active step
+- [ ] `GraphVisualizer` — SVG node-edge graph with BFS/DFS visited/active node animation
+- [ ] `DPTableVisualizer` — 2D grid with cell fill animation, row/col headers
+- [ ] `LinkedListVisualizer` — horizontal node chain with animated pointer arrows
+
+### Progress & Stats Components
+- [ ] `OverallProgressBar` — X / 75 solved with percentage, shadcn Progress primitive
+- [ ] `CategoryProgress` — mini per-category progress bar with label
+- [ ] `StreakCounter` — flame icon + consecutive day count
+- [ ] `DailyGoalRing` — circular ring (complete/incomplete state for today)
+- [ ] `StatCard` — metric display (number, label, optional trend arrow)
+- [ ] `DailyChart` — Recharts bar chart for daily solve activity (last 30 days)
+
+### Layout & Shared
+- [ ] `DataTable` — shadcn table wrapper with sorting + pagination
+- [ ] `Logo` component
+- [ ] `LoadingSpinner` and page-level `Skeleton` variants
+- [ ] `ThemeToggle` — dark/light mode switcher
+
+**Phase 4 exit criteria:** All components render in both dark/light mode and both design variants, no lint errors.
 
 ---
 
@@ -214,11 +246,11 @@ sensai/
 |---|---|---|
 | 1 | Research & Foundation | Running Next.js scaffold, tooling configured |
 | 2 | Design System | Both variants, dark/light mode, layout components |
-| 3 | API & Data Layer | All API routes + Supabase schema + RLS |
-| 4 | Component Library | All custom components built on shadcn |
-| 5 | Pages | All pages wired to real data |
+| 3 | API & Data Layer | All 75 Blind 75 problems seeded, all API routes + Supabase schema + RLS |
+| 4 | Component Library | All custom components: problem UI, 7 visualizers, progress/stats, layout |
+| 5 | Pages | All pages wired to real data, visualizers embedded in problem detail |
 | 6 | Clerk Auth | Full auth flow + webhook sync |
-| 7 | E2E Validation | Manual checklist all green |
+| 7 | E2E Validation | Manual checklist all green (guest + registered + premium gate) |
 | 8 | CI/CD & Deploy | Live on Vercel, CI passing |
 
 ---
