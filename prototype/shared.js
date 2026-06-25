@@ -448,7 +448,12 @@ function initAuthForms() {
 }
 
 // ── Render Problem List ──
-function renderProblemList(containerId, problems, showStatus = false) {
+function renderProblemList(
+  containerId,
+  problems,
+  showStatus = false,
+  showCategory = true,
+) {
   const container = document.getElementById(containerId);
   if (!container) return;
   container.innerHTML = problems
@@ -465,7 +470,7 @@ function renderProblemList(containerId, problems, showStatus = false) {
         <div class="problem-title">${p.title}</div>
         <div class="problem-meta">
           <span class="badge badge-${p.difficulty}">${p.difficulty.charAt(0).toUpperCase() + p.difficulty.slice(1)}</span>
-          <span class="badge badge-category">${p.category}</span>
+          ${showCategory ? `<span class="badge badge-category">${p.category}</span>` : ""}
         </div>
       </div>
       <div class="problem-actions">

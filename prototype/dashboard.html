@@ -476,76 +476,92 @@
       });
 
       document.addEventListener("DOMContentLoaded", () => {
-        renderProblemList("problem-list-all", PROBLEMS, true);
+        // All tab — show category badge (problems span many topics)
+        renderProblemList("problem-list-all", PROBLEMS, true, true);
+        // Category tabs — hide category badge (already implied by the tab)
         renderProblemList(
           "problem-list-arrays",
           PROBLEMS.filter((p) => p.category === "Arrays & Hashing"),
           true,
+          false,
         );
         renderProblemList(
           "problem-list-two-pointers",
           PROBLEMS.filter((p) => p.category === "Two Pointers"),
           true,
+          false,
         );
         renderProblemList(
           "problem-list-trees",
           PROBLEMS.filter((p) => p.category === "Trees"),
           true,
+          false,
         );
         renderProblemList(
           "problem-list-sliding",
           PROBLEMS.filter((p) => p.category === "Sliding Window"),
           true,
+          false,
         );
         renderProblemList(
           "problem-list-stack",
           PROBLEMS.filter((p) => p.category === "Stack"),
           true,
+          false,
         );
         renderProblemList(
           "problem-list-bsearch",
           PROBLEMS.filter((p) => p.category === "Binary Search"),
           true,
+          false,
         );
         renderProblemList(
           "problem-list-linked",
           PROBLEMS.filter((p) => p.category === "Linked List"),
           true,
+          false,
         );
         renderProblemList(
           "problem-list-graphs",
           PROBLEMS.filter((p) => p.category === "Graphs"),
           true,
+          false,
         );
         renderProblemList(
           "problem-list-dp",
           PROBLEMS.filter((p) => p.category === "Dynamic Programming"),
           true,
+          false,
         );
         renderProblemList(
           "problem-list-greedy",
           PROBLEMS.filter((p) => p.category === "Greedy"),
           true,
+          false,
         );
         renderProblemList(
           "problem-list-intervals",
           PROBLEMS.filter((p) => p.category === "Intervals"),
           true,
+          false,
         );
         renderProblemList(
           "problem-list-tries",
           PROBLEMS.filter((p) => p.category === "Tries"),
           true,
+          false,
         );
         renderProblemList(
           "problem-list-heap",
           PROBLEMS.filter((p) => p.category === "Heap / Priority Queue"),
           true,
+          false,
         );
         renderProblemList(
           "problem-list-backtracking",
           PROBLEMS.filter((p) => p.category === "Backtracking"),
           true,
+          false,
         );
       });
     </script>
