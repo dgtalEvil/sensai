@@ -10,7 +10,8 @@ export async function GET() {
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    const data = await getBookmarks();
+    const internalUserId = await getInternalUserId(userId);
+    const data = await getBookmarks(internalUserId);
     return NextResponse.json({ data });
   } catch {
     return NextResponse.json(

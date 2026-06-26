@@ -1,5 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Webhook } from "svix";
+import { createServiceClient } from "@/lib/supabase/client";
+
+interface ClerkUserPayload {
+  id: string;
+  email_addresses: { email_address: string; primary: boolean }[];
+  first_name: string | null;
+  last_name: string | null;
+  image_url: string | null;
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -31,11 +40,30 @@ export async function POST(req: NextRequest) {
       "svix-signature": svixSignature,
     });
 
-    const event = JSON.parse(payload) as { type: string };
+    const event = JSON.parse(payload) as {
+      type: string;
+      data: ClerkUserPayload;
+    };
 
-    // Phase 3 stub — Phase 4 will write to Supabase users table
     if (event.type === "user.created" || event.type === "user.updated") {
-      console.log(`[webhook] received ${event.type}`);
+      const { id, email_addresses, first_name, last_name, image_url } =
+        event.data;
+      const primary =
+        email_addresses.find((e) => e.primary) ?? email_addresses[0];
+      const email = primary?.email_address ?? "";
+      const name = [first_name, last_name].filter(Boolean).join(" ") || null;
+
+      const supabase = createServiceClient();
+      if (supabase) {
+        await supabase
+          .from("users")
+          .upsert(
+            [
+              { clerk_id: id, email, name, avatar_url: image_url },
+            ] as unknown as never[],
+            { onConflict: "clerk_id" },
+          );
+      }
     }
 
     return NextResponse.json({ data: { received: true } });

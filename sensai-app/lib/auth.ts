@@ -1,8 +1,25 @@
-// Phase 3 stub — returns fixed mock UUID.
-// Phase 4 replaces body with: SELECT id FROM users WHERE clerk_id = clerkId
-export async function getInternalUserId(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  clerkId: string,
-): Promise<string> {
-  return "u0000001-0000-0000-0000-000000000001";
+import { createServiceClient } from "@/lib/supabase/client";
+
+export async function getInternalUserId(clerkId: string): Promise<string> {
+  const supabase = createServiceClient();
+  if (!supabase) throw new Error("Supabase client not available");
+
+  const { data: existing } = await supabase
+    .from("users")
+    .select("id")
+    .eq("clerk_id", clerkId)
+    .single<{ id: string }>();
+
+  if (existing) return existing.id;
+
+  const { data: created, error } = await supabase
+    .from("users")
+    .insert([
+      { clerk_id: clerkId, email: "", name: null, avatar_url: null },
+    ] as unknown as never[])
+    .select("id")
+    .single<{ id: string }>();
+
+  if (error || !created) throw new Error("Failed to create user record");
+  return created.id;
 }
