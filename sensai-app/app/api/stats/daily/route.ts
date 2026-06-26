@@ -1,5 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { getInternalUserId } from "@/lib/auth";
 import { getDailyStats } from "@/lib/queries/getDailyStats";
 
 export async function GET() {
@@ -8,7 +9,8 @@ export async function GET() {
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    const data = await getDailyStats();
+    const internalUserId = await getInternalUserId(userId);
+    const data = await getDailyStats(internalUserId);
     return NextResponse.json({ data });
   } catch {
     return NextResponse.json(

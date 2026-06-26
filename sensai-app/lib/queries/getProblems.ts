@@ -1,5 +1,5 @@
+import { createServiceClient } from "@/lib/supabase/client";
 import type { PaginatedResponse, Problem } from "@/types";
-import { MOCK_PROBLEMS } from "@/lib/mock/problems";
 
 interface GetProblemsParams {
   topic?: string;
@@ -14,18 +14,16 @@ export async function getProblems({
   page = 1,
   pageSize = 20,
 }: GetProblemsParams = {}): Promise<PaginatedResponse<Problem>> {
-  let filtered = MOCK_PROBLEMS;
+  const supabase = createServiceClient();
+  if (!supabase) throw new Error("Supabase client not available");
 
-  if (topic) {
-    filtered = filtered.filter((p) => p.topic === topic);
-  }
-  if (difficulty) {
-    filtered = filtered.filter((p) => p.difficulty === difficulty);
-  }
+  let query = supabase.from("problems").select("*", { count: "exact" });
+  if (topic) query = query.eq("topic", topic);
+  if (difficulty) query = query.eq("difficulty", difficulty);
 
-  const total = filtered.length;
   const start = (page - 1) * pageSize;
-  const data = filtered.slice(start, start + pageSize);
+  const { data, count, error } = await query.range(start, start + pageSize - 1);
+  if (error) throw new Error(error.message);
 
-  return { data, total, page, pageSize };
+  return { data: (data ?? []) as Problem[], total: count ?? 0, page, pageSize };
 }

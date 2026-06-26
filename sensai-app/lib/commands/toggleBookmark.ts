@@ -1,4 +1,4 @@
-import { MOCK_BOOKMARKS } from "@/lib/mock/bookmarks";
+import { createServiceClient } from "@/lib/supabase/client";
 
 interface ToggleBookmarkParams {
   userId: string;
@@ -6,9 +6,26 @@ interface ToggleBookmarkParams {
 }
 
 export async function toggleBookmark({
+  userId,
   problemId,
 }: ToggleBookmarkParams): Promise<{ bookmarked: boolean }> {
-  // Phase 3 stub — checks mock bookmarks list; Phase 4 will INSERT or DELETE in bookmarks table
-  const isBookmarked = MOCK_BOOKMARKS.some((b) => b.problem_id === problemId);
-  return { bookmarked: !isBookmarked };
+  const supabase = createServiceClient();
+  if (!supabase) throw new Error("Supabase client not available");
+
+  const { data: existing } = await supabase
+    .from("bookmarks")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("problem_id", problemId)
+    .single<{ id: string }>();
+
+  if (existing) {
+    await supabase.from("bookmarks").delete().eq("id", existing.id);
+    return { bookmarked: false };
+  }
+
+  await supabase
+    .from("bookmarks")
+    .insert([{ user_id: userId, problem_id: problemId }] as unknown as never[]);
+  return { bookmarked: true };
 }
