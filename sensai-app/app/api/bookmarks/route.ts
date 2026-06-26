@@ -15,7 +15,7 @@ export async function GET() {
   } catch {
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     if (!body.problem_id) {
       return NextResponse.json(
         { error: "problem_id is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
   } catch {
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

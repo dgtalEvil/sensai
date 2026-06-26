@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
     if (!secret) {
       return NextResponse.json(
         { error: "Webhook secret not configured" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     if (!svixId || !svixTimestamp || !svixSignature) {
       return NextResponse.json(
         { error: "Invalid webhook signature" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
   } catch {
     return NextResponse.json(
       { error: "Invalid webhook signature" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 }

@@ -4,7 +4,7 @@ import { getProblemById } from "@/lib/queries/getProblemById";
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const { userId } = await auth();
@@ -20,7 +20,7 @@ export async function GET(
   } catch {
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

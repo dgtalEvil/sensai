@@ -5,7 +5,7 @@ import { solveProblem } from "@/lib/commands/solveProblem";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const { userId } = await auth();
@@ -17,7 +17,7 @@ export async function POST(
     if (!body.status) {
       return NextResponse.json(
         { error: "status is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -33,7 +33,7 @@ export async function POST(
   } catch {
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
