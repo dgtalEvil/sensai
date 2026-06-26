@@ -49,10 +49,7 @@ export const MOCK_PROBLEMS: Problem[] = [
           "Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.",
       },
     ],
-    constraints: [
-      "1 <= prices.length <= 10^5",
-      "0 <= prices[i] <= 10^4",
-    ],
+    constraints: ["1 <= prices.length <= 10^5", "0 <= prices[i] <= 10^4"],
     starter_code: [
       {
         language: "javascript",
@@ -76,10 +73,7 @@ export const MOCK_PROBLEMS: Problem[] = [
       { input: "nums = [1,2,3,1]", output: "true" },
       { input: "nums = [1,2,3,4]", output: "false" },
     ],
-    constraints: [
-      "1 <= nums.length <= 10^5",
-      "-10^9 <= nums[i] <= 10^9",
-    ],
+    constraints: ["1 <= nums.length <= 10^5", "-10^9 <= nums[i] <= 10^9"],
     starter_code: [
       {
         language: "javascript",
@@ -104,10 +98,7 @@ export const MOCK_PROBLEMS: Problem[] = [
         output: "[24,12,8,6]",
       },
     ],
-    constraints: [
-      "2 <= nums.length <= 10^5",
-      "-30 <= nums[i] <= 30",
-    ],
+    constraints: ["2 <= nums.length <= 10^5", "-30 <= nums[i] <= 30"],
     starter_code: [
       {
         language: "javascript",
@@ -134,17 +125,15 @@ export const MOCK_PROBLEMS: Problem[] = [
         explanation: "The subarray [4,-1,2,1] has the largest sum 6.",
       },
     ],
-    constraints: [
-      "1 <= nums.length <= 10^5",
-      "-10^4 <= nums[i] <= 10^4",
-    ],
+    constraints: ["1 <= nums.length <= 10^5", "-10^4 <= nums[i] <= 10^4"],
     starter_code: [
       {
         language: "javascript",
         code: "function maxSubArray(nums) {\n  // your code here\n}",
       },
     ],
-    solution_explanation: "Use Kadane's algorithm: track current sum and max sum.",
+    solution_explanation:
+      "Use Kadane's algorithm: track current sum and max sum.",
     is_premium: false,
     created_at: "2024-01-05T00:00:00.000Z",
   },
@@ -184,7 +173,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     difficulty: "Easy",
     topic: "Strings",
     description:
-      'A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Given a string `s`, return `true` if it is a palindrome, or `false` otherwise.',
+      "A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Given a string `s`, return `true` if it is a palindrome, or `false` otherwise.",
     examples: [
       {
         input: 's = "A man, a plan, a canal: Panama"',
@@ -244,7 +233,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     difficulty: "Medium",
     topic: "Strings",
     description:
-      'Given an array of strings `strs`, group the anagrams together. You can return the answer in any order.',
+      "Given an array of strings `strs`, group the anagrams together. You can return the answer in any order.",
     examples: [
       {
         input: 'strs = ["eat","tea","tan","ate","nat","bat"]',
@@ -310,9 +299,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Linked Lists",
     description:
       "Given the `head` of a singly linked list, reverse the list, and return the reversed list.",
-    examples: [
-      { input: "head = [1,2,3,4,5]", output: "[5,4,3,2,1]" },
-    ],
+    examples: [{ input: "head = [1,2,3,4,5]", output: "[5,4,3,2,1]" }],
     constraints: [
       "The number of nodes in the list is the range [0, 5000].",
       "-5000 <= Node.val <= 5000",
@@ -367,7 +354,8 @@ export const MOCK_PROBLEMS: Problem[] = [
       {
         input: "head = [3,2,0,-4], pos = 1",
         output: "true",
-        explanation: "There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).",
+        explanation:
+          "There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).",
       },
     ],
     constraints: [
@@ -393,9 +381,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Linked Lists",
     description:
       "You are given the head of a singly linked-list: L0 → L1 → … → Ln - 1 → Ln. Reorder it to: L0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …",
-    examples: [
-      { input: "head = [1,2,3,4]", output: "[1,4,2,3]" },
-    ],
+    examples: [{ input: "head = [1,2,3,4]", output: "[1,4,2,3]" }],
     constraints: [
       "The number of nodes in the list is in the range [1, 5 * 10^4].",
       "1 <= Node.val <= 1000",
@@ -453,9 +439,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Trees",
     description:
       "Given the `root` of a binary tree, invert the tree, and return its root.",
-    examples: [
-      { input: "root = [4,2,7,1,3,6,9]", output: "[4,7,2,9,6,3,1]" },
-    ],
+    examples: [{ input: "root = [4,2,7,1,3,6,9]", output: "[4,7,2,9,6,3,1]" }],
     constraints: [
       "The number of nodes in the tree is in the range [0, 100].",
       "-100 <= Node.val <= 100",
@@ -479,9 +463,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Trees",
     description:
       "Given the `root` of a binary tree, return its maximum depth. A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.",
-    examples: [
-      { input: "root = [3,9,20,null,null,15,7]", output: "3" },
-    ],
+    examples: [{ input: "root = [3,9,20,null,null,15,7]", output: "3" }],
     constraints: [
       "The number of nodes in the tree is in the range [0, 10^4].",
       "-100 <= Node.val <= 100",
@@ -591,7 +573,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     difficulty: "Medium",
     topic: "Graphs",
     description:
-      'Given an m x n 2D binary grid `grid` which represents a map of \'1\'s (land) and \'0\'s (water), return the number of islands.',
+      "Given an m x n 2D binary grid `grid` which represents a map of '1's (land) and '0's (water), return the number of islands.",
     examples: [
       {
         input:
@@ -603,7 +585,7 @@ export const MOCK_PROBLEMS: Problem[] = [
       "m == grid.length",
       "n == grid[i].length",
       "1 <= m, n <= 300",
-      'grid[i][j] is \'0\' or \'1\'.',
+      "grid[i][j] is '0' or '1'.",
     ],
     starter_code: [
       {
@@ -625,7 +607,10 @@ export const MOCK_PROBLEMS: Problem[] = [
     description:
       "Given a reference of a node in a connected undirected graph, return a deep copy (clone) of the graph.",
     examples: [
-      { input: "adjList = [[2,4],[1,3],[2,4],[1,3]]", output: "[[2,4],[1,3],[2,4],[1,3]]" },
+      {
+        input: "adjList = [[2,4],[1,3],[2,4],[1,3]]",
+        output: "[[2,4],[1,3],[2,4],[1,3]]",
+      },
     ],
     constraints: [
       "The number of nodes in the graph is in the range [0, 100].",
@@ -653,7 +638,10 @@ export const MOCK_PROBLEMS: Problem[] = [
       "There are a total of `numCourses` courses you have to take, labeled from `0` to `numCourses - 1`. You are given an array `prerequisites`. Return `true` if you can finish all courses, otherwise return `false`.",
     examples: [
       { input: "numCourses = 2, prerequisites = [[1,0]]", output: "true" },
-      { input: "numCourses = 2, prerequisites = [[1,0],[0,1]]", output: "false" },
+      {
+        input: "numCourses = 2, prerequisites = [[1,0],[0,1]]",
+        output: "false",
+      },
     ],
     constraints: [
       "1 <= numCourses <= 2000",
@@ -680,7 +668,8 @@ export const MOCK_PROBLEMS: Problem[] = [
       "There is an m x n rectangular island with heights. Rain water can flow to adjacent cells. Find all cells from which water can flow to both the Pacific and Atlantic oceans.",
     examples: [
       {
-        input: "heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]",
+        input:
+          "heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]",
         output: "[[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]]",
       },
     ],
@@ -710,7 +699,8 @@ export const MOCK_PROBLEMS: Problem[] = [
       "A transformation sequence from word `beginWord` to word `endWord` using a dictionary `wordList` is a sequence where each adjacent pair of words differs by a single letter. Return the number of words in the shortest transformation sequence, or 0 if no such sequence exists.",
     examples: [
       {
-        input: 'beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]',
+        input:
+          'beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]',
         output: "5",
         explanation: '"hit" -> "hot" -> "dot" -> "dog" -> "cog"',
       },
@@ -741,9 +731,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Dynamic Programming",
     description:
       "You are climbing a staircase. It takes `n` steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?",
-    examples: [
-      { input: "n = 3", output: "3", explanation: "1+1+1, 1+2, 2+1" },
-    ],
+    examples: [{ input: "n = 3", output: "3", explanation: "1+1+1, 1+2, 2+1" }],
     constraints: ["1 <= n <= 45"],
     starter_code: [
       {
@@ -765,12 +753,13 @@ export const MOCK_PROBLEMS: Problem[] = [
     description:
       "You are a professional robber planning to rob houses along a street. Adjacent houses have security systems connected. Given an integer array `nums` representing the amount of money of each house, return the maximum amount you can rob without alerting the police.",
     examples: [
-      { input: "nums = [2,7,9,3,1]", output: "12", explanation: "Rob houses 0, 2, 4: 2+9+1 = 12." },
+      {
+        input: "nums = [2,7,9,3,1]",
+        output: "12",
+        explanation: "Rob houses 0, 2, 4: 2+9+1 = 12.",
+      },
     ],
-    constraints: [
-      "1 <= nums.length <= 100",
-      "0 <= nums[i] <= 400",
-    ],
+    constraints: ["1 <= nums.length <= 100", "0 <= nums[i] <= 400"],
     starter_code: [
       {
         language: "javascript",
@@ -819,12 +808,13 @@ export const MOCK_PROBLEMS: Problem[] = [
     description:
       "Given an integer array `nums`, return the length of the longest strictly increasing subsequence.",
     examples: [
-      { input: "nums = [10,9,2,5,3,7,101,18]", output: "4", explanation: "[2,3,7,101]" },
+      {
+        input: "nums = [10,9,2,5,3,7,101,18]",
+        output: "4",
+        explanation: "[2,3,7,101]",
+      },
     ],
-    constraints: [
-      "1 <= nums.length <= 2500",
-      "-10^4 <= nums[i] <= 10^4",
-    ],
+    constraints: ["1 <= nums.length <= 2500", "-10^4 <= nums[i] <= 10^4"],
     starter_code: [
       {
         language: "javascript",
@@ -844,9 +834,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Dynamic Programming",
     description:
       "Given two strings `word1` and `word2`, return the minimum number of operations required to convert `word1` to `word2`. Operations: Insert, Delete, Replace a character.",
-    examples: [
-      { input: 'word1 = "horse", word2 = "ros"', output: "3" },
-    ],
+    examples: [{ input: 'word1 = "horse", word2 = "ros"', output: "3" }],
     constraints: [
       "0 <= word1.length, word2.length <= 500",
       "word1 and word2 consist of lowercase English letters.",
@@ -872,9 +860,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Sorting",
     description:
       "Given an array `nums` with `n` objects colored red, white, or blue (0, 1, 2), sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue. Do not use the library's sort function.",
-    examples: [
-      { input: "nums = [2,0,2,1,1,0]", output: "[0,0,1,1,2,2]" },
-    ],
+    examples: [{ input: "nums = [2,0,2,1,1,0]", output: "[0,0,1,1,2,2]" }],
     constraints: [
       "n == nums.length",
       "1 <= n <= 300",
@@ -900,7 +886,10 @@ export const MOCK_PROBLEMS: Problem[] = [
     description:
       "Given an array of `intervals` where `intervals[i] = [starti, endi]`, merge all overlapping intervals and return an array of the non-overlapping intervals.",
     examples: [
-      { input: "intervals = [[1,3],[2,6],[8,10],[15,18]]", output: "[[1,6],[8,10],[15,18]]" },
+      {
+        input: "intervals = [[1,3],[2,6],[8,10],[15,18]]",
+        output: "[[1,6],[8,10],[15,18]]",
+      },
     ],
     constraints: [
       "1 <= intervals.length <= 10^4",
@@ -926,13 +915,8 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Sorting",
     description:
       "Given an integer array `nums` and an integer `k`, return the `k`th largest element in the array. Note: it is the kth largest in sorted order, not the kth distinct element.",
-    examples: [
-      { input: "nums = [3,2,1,5,6,4], k = 2", output: "5" },
-    ],
-    constraints: [
-      "1 <= k <= nums.length <= 10^5",
-      "-10^4 <= nums[i] <= 10^4",
-    ],
+    examples: [{ input: "nums = [3,2,1,5,6,4], k = 2", output: "5" }],
+    constraints: ["1 <= k <= nums.length <= 10^5", "-10^4 <= nums[i] <= 10^4"],
     starter_code: [
       {
         language: "javascript",
@@ -952,9 +936,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Sorting",
     description:
       "Given an array of meeting time intervals `intervals` where `intervals[i] = [starti, endi]`, return the minimum number of conference rooms required.",
-    examples: [
-      { input: "intervals = [[0,30],[5,10],[15,20]]", output: "2" },
-    ],
+    examples: [{ input: "intervals = [[0,30],[5,10],[15,20]]", output: "2" }],
     constraints: [
       "1 <= intervals.length <= 10^4",
       "0 <= starti < endi <= 10^6",
@@ -977,14 +959,9 @@ export const MOCK_PROBLEMS: Problem[] = [
     difficulty: "Medium",
     topic: "Sorting",
     description:
-      'Given a list of non-negative integers `nums`, arrange them such that they form the largest number and return it as a string.',
-    examples: [
-      { input: "nums = [3,30,34,5,9]", output: '"9534330"' },
-    ],
-    constraints: [
-      "1 <= nums.length <= 100",
-      "0 <= nums[i] <= 10^9",
-    ],
+      "Given a list of non-negative integers `nums`, arrange them such that they form the largest number and return it as a string.",
+    examples: [{ input: "nums = [3,30,34,5,9]", output: '"9534330"' }],
+    constraints: ["1 <= nums.length <= 100", "0 <= nums[i] <= 10^9"],
     starter_code: [
       {
         language: "javascript",
@@ -992,7 +969,7 @@ export const MOCK_PROBLEMS: Problem[] = [
       },
     ],
     solution_explanation:
-      'Custom sort comparator: compare (a+b) vs (b+a) as strings.',
+      "Custom sort comparator: compare (a+b) vs (b+a) as strings.",
     is_premium: false,
     created_at: "2024-02-05T00:00:00.000Z",
   },
@@ -1006,9 +983,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Binary Search",
     description:
       "Given an array of integers `nums` which is sorted in ascending order, and an integer `target`, write a function to search `target` in `nums`. If `target` exists, return its index. Otherwise, return `-1`.",
-    examples: [
-      { input: "nums = [-1,0,3,5,9,12], target = 9", output: "4" },
-    ],
+    examples: [{ input: "nums = [-1,0,3,5,9,12], target = 9", output: "4" }],
     constraints: [
       "1 <= nums.length <= 10^4",
       "-10^4 < nums[i], target < 10^4",
@@ -1033,9 +1008,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Binary Search",
     description:
       "Given the array `nums` after the possible rotation and an integer `target`, return the index of `target` if it is in `nums`, or `-1` if it is not in `nums`.",
-    examples: [
-      { input: "nums = [4,5,6,7,0,1,2], target = 0", output: "4" },
-    ],
+    examples: [{ input: "nums = [4,5,6,7,0,1,2], target = 0", output: "4" }],
     constraints: [
       "1 <= nums.length <= 5000",
       "-10^4 <= nums[i] <= 10^4",
@@ -1060,9 +1033,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Binary Search",
     description:
       "Given the sorted rotated array `nums` of unique elements, return the minimum element of this array. You must write an algorithm that runs in O(log n) time.",
-    examples: [
-      { input: "nums = [3,4,5,1,2]", output: "1" },
-    ],
+    examples: [{ input: "nums = [3,4,5,1,2]", output: "1" }],
     constraints: [
       "n == nums.length",
       "1 <= n <= 5000",
@@ -1088,7 +1059,10 @@ export const MOCK_PROBLEMS: Problem[] = [
     description:
       "You are given an m x n integer matrix `matrix` with each row sorted in ascending order, and the first integer of each row is greater than the last integer of the previous row. Given an integer `target`, return `true` if `target` is in matrix or `false` otherwise. Algorithm must run in O(log(m * n)) time.",
     examples: [
-      { input: "matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3", output: "true" },
+      {
+        input: "matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3",
+        output: "true",
+      },
     ],
     constraints: [
       "m == matrix.length",
@@ -1114,9 +1088,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Binary Search",
     description:
       "Given two sorted arrays `nums1` and `nums2` of size `m` and `n` respectively, return the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).",
-    examples: [
-      { input: "nums1 = [1,3], nums2 = [2]", output: "2.00000" },
-    ],
+    examples: [{ input: "nums1 = [1,3], nums2 = [2]", output: "2.00000" }],
     constraints: [
       "nums1.length == m",
       "nums2.length == n",
@@ -1174,7 +1146,8 @@ export const MOCK_PROBLEMS: Problem[] = [
       "Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.",
     examples: [
       {
-        input: '["MinStack","push","push","push","getMin","pop","top","getMin"]\n[[],[-2],[0],[-3],[],[],[],[]]',
+        input:
+          '["MinStack","push","push","push","getMin","pop","top","getMin"]\n[[],[-2],[0],[-3],[],[],[],[]]',
         output: "[null,null,null,null,-3,null,0,-2]",
       },
     ],
@@ -1202,7 +1175,10 @@ export const MOCK_PROBLEMS: Problem[] = [
     description:
       "Given an array of integers `temperatures` represents the daily temperatures, return an array `answer` such that `answer[i]` is the number of days you have to wait after the `i`th day to get a warmer temperature.",
     examples: [
-      { input: "temperatures = [73,74,75,71,69,72,76,73]", output: "[1,1,4,2,1,1,0,0]" },
+      {
+        input: "temperatures = [73,74,75,71,69,72,76,73]",
+        output: "[1,1,4,2,1,1,0,0]",
+      },
     ],
     constraints: [
       "1 <= temperatures.length <= 10^5",
@@ -1227,13 +1203,8 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Stack",
     description:
       "Given an array of integers `heights` representing the histogram's bar height where the width of each bar is 1, return the area of the largest rectangle in the histogram.",
-    examples: [
-      { input: "heights = [2,1,5,6,2,3]", output: "10" },
-    ],
-    constraints: [
-      "1 <= heights.length <= 10^5",
-      "0 <= heights[i] <= 10^4",
-    ],
+    examples: [{ input: "heights = [2,1,5,6,2,3]", output: "10" }],
+    constraints: ["1 <= heights.length <= 10^5", "0 <= heights[i] <= 10^4"],
     starter_code: [
       {
         language: "javascript",
@@ -1254,7 +1225,11 @@ export const MOCK_PROBLEMS: Problem[] = [
     description:
       "Evaluate the value of an arithmetic expression in Reverse Polish Notation. Valid operators are +, -, *, and /.",
     examples: [
-      { input: 'tokens = ["2","1","+","3","*"]', output: "9", explanation: "((2 + 1) * 3) = 9" },
+      {
+        input: 'tokens = ["2","1","+","3","*"]',
+        output: "9",
+        explanation: "((2 + 1) * 3) = 9",
+      },
     ],
     constraints: [
       "1 <= tokens.length <= 10^4",
@@ -1283,7 +1258,8 @@ export const MOCK_PROBLEMS: Problem[] = [
       "Implement a first in first out (FIFO) queue using only two stacks.",
     examples: [
       {
-        input: '["MyQueue","push","push","peek","pop","empty"]\n[[],[1],[2],[],[],[]]',
+        input:
+          '["MyQueue","push","push","peek","pop","empty"]\n[[],[1],[2],[],[],[]]',
         output: "[null,null,null,1,1,false]",
       },
     ],
@@ -1340,11 +1316,15 @@ export const MOCK_PROBLEMS: Problem[] = [
       "Design a hit counter which counts the number of hits received in the past 5 minutes (300 seconds). Each function accepts a `timestamp` parameter (in seconds) and you may assume that calls are being made to the system in chronological order.",
     examples: [
       {
-        input: '["HitCounter","hit","hit","hit","getHits","hit","getHits","getHits"]\n[[],[1],[2],[3],[4],[300],[300],[301]]',
+        input:
+          '["HitCounter","hit","hit","hit","getHits","hit","getHits","getHits"]\n[[],[1],[2],[3],[4],[300],[300],[301]]',
         output: "[null,null,null,null,3,null,4,3]",
       },
     ],
-    constraints: ["1 <= timestamp <= 2 * 10^9", "All the calls are being made to the system in chronological order."],
+    constraints: [
+      "1 <= timestamp <= 2 * 10^9",
+      "All the calls are being made to the system in chronological order.",
+    ],
     starter_code: [
       {
         language: "javascript",
@@ -1393,7 +1373,8 @@ export const MOCK_PROBLEMS: Problem[] = [
       "Design your implementation of the circular queue. The circular queue is a linear data structure in which the operations are performed based on FIFO principle and the last position is connected back to the first position to make a circle.",
     examples: [
       {
-        input: '["MyCircularQueue","enQueue","enQueue","enQueue","enQueue","Rear","isFull","deQueue","enQueue","Rear"]\n[[3],[1],[2],[3],[4],[],[],[],[4],[]]',
+        input:
+          '["MyCircularQueue","enQueue","enQueue","enQueue","enQueue","Rear","isFull","deQueue","enQueue","Rear"]\n[[3],[1],[2],[3],[4],[],[],[],[4],[]]',
         output: "[null,true,true,true,false,3,true,true,true,4]",
       },
     ],
@@ -1450,9 +1431,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Hash Map",
     description:
       "Given an integer array `nums` and an integer `k`, return the `k` most frequent elements. You may return the answer in any order.",
-    examples: [
-      { input: "nums = [1,1,1,2,2,3], k = 2", output: "[1,2]" },
-    ],
+    examples: [{ input: "nums = [1,1,1,2,2,3], k = 2", output: "[1,2]" }],
     constraints: [
       "1 <= nums.length <= 10^5",
       "-10^4 <= nums[i] <= 10^4",
@@ -1478,12 +1457,13 @@ export const MOCK_PROBLEMS: Problem[] = [
     description:
       "Given an unsorted array of integers `nums`, return the length of the longest consecutive elements sequence. You must write an algorithm that runs in O(n) time.",
     examples: [
-      { input: "nums = [100,4,200,1,3,2]", output: "4", explanation: "The longest consecutive sequence is [1,2,3,4]." },
+      {
+        input: "nums = [100,4,200,1,3,2]",
+        output: "4",
+        explanation: "The longest consecutive sequence is [1,2,3,4].",
+      },
     ],
-    constraints: [
-      "0 <= nums.length <= 10^5",
-      "-10^9 <= nums[i] <= 10^9",
-    ],
+    constraints: ["0 <= nums.length <= 10^5", "-10^9 <= nums[i] <= 10^9"],
     starter_code: [
       {
         language: "javascript",
@@ -1503,9 +1483,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Hash Map",
     description:
       "Given an array of integers `nums` and an integer `k`, return the total number of subarrays whose sum equals to `k`.",
-    examples: [
-      { input: "nums = [1,1,1], k = 2", output: "2" },
-    ],
+    examples: [{ input: "nums = [1,1,1], k = 2", output: "2" }],
     constraints: [
       "1 <= nums.length <= 2 * 10^4",
       "-1000 <= nums[i] <= 1000",
@@ -1532,7 +1510,8 @@ export const MOCK_PROBLEMS: Problem[] = [
       "Design a HashMap without using any built-in hash table libraries. Implement the `MyHashMap` class: put, get, and remove.",
     examples: [
       {
-        input: '["MyHashMap","put","put","get","get","put","get","remove","get"]\n[[],[1,1],[2,2],[1],[3],[2,1],[2],[2],[2]]',
+        input:
+          '["MyHashMap","put","put","get","get","put","get","remove","get"]\n[[],[1,1],[2,2],[1],[3],[2,1],[2],[2],[2]]',
         output: "[null,null,null,1,-1,null,1,null,-1]",
       },
     ],
@@ -1564,10 +1543,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     examples: [
       { input: "nums = [-1,0,1,2,-1,-4]", output: "[[-1,-1,2],[-1,0,1]]" },
     ],
-    constraints: [
-      "3 <= nums.length <= 3000",
-      "-10^5 <= nums[i] <= 10^5",
-    ],
+    constraints: ["3 <= nums.length <= 3000", "-10^5 <= nums[i] <= 10^5"],
     starter_code: [
       {
         language: "javascript",
@@ -1587,9 +1563,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Two Pointers",
     description:
       "You are given an integer array `height` of length `n`. There are `n` vertical lines drawn such that the two endpoints of the `i`th line are `(i, 0)` and `(i, height[i])`. Find two lines that together with the x-axis form a container that holds the most water.",
-    examples: [
-      { input: "height = [1,8,6,2,5,4,8,3,7]", output: "49" },
-    ],
+    examples: [{ input: "height = [1,8,6,2,5,4,8,3,7]", output: "49" }],
     constraints: [
       "n == height.length",
       "2 <= n <= 10^5",
@@ -1614,9 +1588,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Two Pointers",
     description:
       "Given `n` non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.",
-    examples: [
-      { input: "height = [0,1,0,2,1,0,1,3,2,1,2,1]", output: "6" },
-    ],
+    examples: [{ input: "height = [0,1,0,2,1,0,1,3,2,1,2,1]", output: "6" }],
     constraints: [
       "n == height.length",
       "1 <= n <= 2 * 10^4",
@@ -1641,9 +1613,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Two Pointers",
     description:
       "Given a 1-indexed array of integers `numbers` that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number.",
-    examples: [
-      { input: "numbers = [2,7,11,15], target = 9", output: "[1,2]" },
-    ],
+    examples: [{ input: "numbers = [2,7,11,15], target = 9", output: "[1,2]" }],
     constraints: [
       "2 <= numbers.length <= 3 * 10^4",
       "-1000 <= numbers[i] <= 1000",
@@ -1667,13 +1637,8 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Two Pointers",
     description:
       "Given an integer array `nums` sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. Return the number of unique elements.",
-    examples: [
-      { input: "nums = [1,1,2]", output: "2, nums = [1,2,_]" },
-    ],
-    constraints: [
-      "1 <= nums.length <= 3 * 10^4",
-      "-100 <= nums[i] <= 100",
-    ],
+    examples: [{ input: "nums = [1,1,2]", output: "2, nums = [1,2,_]" }],
+    constraints: ["1 <= nums.length <= 3 * 10^4", "-100 <= nums[i] <= 100"],
     starter_code: [
       {
         language: "javascript",
@@ -1722,9 +1687,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Sliding Window",
     description:
       "Given two strings `s1` and `s2`, return `true` if `s2` contains a permutation of `s1`, or `false` otherwise. In other words, return `true` if one of `s1`'s permutations is the substring of `s2`.",
-    examples: [
-      { input: 's1 = "ab", s2 = "eidbaooo"', output: "true" },
-    ],
+    examples: [{ input: 's1 = "ab", s2 = "eidbaooo"', output: "true" }],
     constraints: [
       "1 <= s1.length, s2.length <= 10^4",
       "s1 and s2 consist of lowercase English letters.",
@@ -1775,9 +1738,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Sliding Window",
     description:
       "You are given a string `s` and an integer `k`. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most `k` times. Return the length of the longest substring containing the same letter you can get after performing the above operations.",
-    examples: [
-      { input: 's = "ABAB", k = 2', output: "4" },
-    ],
+    examples: [{ input: 's = "ABAB", k = 2', output: "4" }],
     constraints: [
       "1 <= s.length <= 10^5",
       "s consists of only uppercase English letters.",
@@ -1803,7 +1764,10 @@ export const MOCK_PROBLEMS: Problem[] = [
     description:
       "You are given a string `s` and an array of strings `words`. All the strings of `words` are of the same length. Return all starting indices of substring(s) in `s` that is a concatenation of each word in `words` exactly once, in any order.",
     examples: [
-      { input: 's = "barfoothefoobarman", words = ["foo","bar"]', output: "[0,9]" },
+      {
+        input: 's = "barfoothefoobarman", words = ["foo","bar"]',
+        output: "[0,9]",
+      },
     ],
     constraints: [
       "1 <= s.length <= 10^4",
@@ -1882,7 +1846,10 @@ export const MOCK_PROBLEMS: Problem[] = [
     description:
       "Given an array `nums` of distinct integers, return all the possible permutations. You can return the answer in any order.",
     examples: [
-      { input: "nums = [1,2,3]", output: "[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]" },
+      {
+        input: "nums = [1,2,3]",
+        output: "[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]",
+      },
     ],
     constraints: [
       "1 <= nums.length <= 6",
@@ -1909,7 +1876,10 @@ export const MOCK_PROBLEMS: Problem[] = [
     description:
       "Given `n` pairs of parentheses, write a function to generate all combinations of well-formed parentheses.",
     examples: [
-      { input: "n = 3", output: '["((()))","(()())","(())()","()(())","()()()"]' },
+      {
+        input: "n = 3",
+        output: '["((()))","(()())","(())()","()(())","()()()"]',
+      },
     ],
     constraints: ["1 <= n <= 8"],
     starter_code: [
@@ -1931,9 +1901,7 @@ export const MOCK_PROBLEMS: Problem[] = [
     topic: "Recursion",
     description:
       "Implement the Tower of Hanoi algorithm. Given `n` disks and three pegs (source, target, auxiliary), move all disks from source to target. Return the list of moves as arrays [fromPeg, toPeg]. A larger disk must never be placed on top of a smaller disk.",
-    examples: [
-      { input: "n = 2", output: "[[1,3],[1,2],[3,2]]" },
-    ],
+    examples: [{ input: "n = 2", output: "[[1,3],[1,2],[3,2]]" }],
     constraints: ["1 <= n <= 10"],
     starter_code: [
       {
@@ -1957,7 +1925,10 @@ export const MOCK_PROBLEMS: Problem[] = [
     description:
       "Given an integer array `nums` of unique elements, return all possible subsets (the power set). The solution set must not contain duplicate subsets.",
     examples: [
-      { input: "nums = [1,2,3]", output: "[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]" },
+      {
+        input: "nums = [1,2,3]",
+        output: "[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]",
+      },
     ],
     constraints: [
       "1 <= nums.length <= 10",
@@ -2012,7 +1983,8 @@ export const MOCK_PROBLEMS: Problem[] = [
       "Given an `m x n` grid of characters `board` and a string `word`, return `true` if `word` exists in the grid. The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring.",
     examples: [
       {
-        input: 'board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"',
+        input:
+          'board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"',
         output: "true",
       },
     ],
@@ -2042,7 +2014,10 @@ export const MOCK_PROBLEMS: Problem[] = [
     description:
       "The n-queens puzzle is the problem of placing `n` queens on an `n x n` chessboard such that no two queens attack each other. Given an integer `n`, return all distinct solutions to the n-queens puzzle.",
     examples: [
-      { input: "n = 4", output: '[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]' },
+      {
+        input: "n = 4",
+        output: '[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]',
+      },
     ],
     constraints: ["1 <= n <= 9"],
     starter_code: [
@@ -2068,7 +2043,7 @@ export const MOCK_PROBLEMS: Problem[] = [
       {
         input:
           'board = [["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]]',
-        output: 'Solved board in-place',
+        output: "Solved board in-place",
       },
     ],
     constraints: [
