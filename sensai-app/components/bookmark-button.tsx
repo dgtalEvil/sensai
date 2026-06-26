@@ -9,12 +9,14 @@ interface BookmarkButtonProps {
   problemId: string;
   initialBookmarked?: boolean;
   className?: string;
+  onRemove?: () => void;
 }
 
 export function BookmarkButton({
   problemId,
   initialBookmarked = false,
   className,
+  onRemove,
 }: BookmarkButtonProps) {
   const [bookmarked, setBookmarked] = useState(initialBookmarked);
   const [isPending, startTransition] = useTransition();
@@ -29,7 +31,11 @@ export function BookmarkButton({
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ problem_id: problemId }),
         });
-        if (!res.ok) setBookmarked(prev);
+        if (!res.ok) {
+          setBookmarked(prev);
+        } else if (prev && onRemove) {
+          onRemove();
+        }
       } catch {
         setBookmarked(prev);
       }
