@@ -1,27 +1,39 @@
-import { serverFetch } from "@/lib/fetch";
-import { DailyStatsCard } from "@/components/stats/daily-stats-card";
-import { ProgressBars } from "@/components/stats/progress-bars";
-import { ActivityHeatmap } from "@/components/stats/activity-heatmap";
-import { RecentActivity } from "@/components/stats/recent-activity";
-import type { DailyStats, ProgressStats, HeatmapEntry, ActivityEntry } from "@/types";
+import { Suspense } from "react";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { getInternalUserId } from "@/lib/auth";
+import { getDailyStats } from "@/lib/queries/getDailyStats";
+import { getProgressStats } from "@/lib/queries/getProgressStats";
+import { getProblems } from "@/lib/queries/getProblems";
+import { getBookmarks } from "@/lib/queries/getBookmarks";
+import { DashboardClient } from "@/components/dashboard/dashboard-client";
 
 export default async function DashboardPage() {
-  const [daily, progress, heatmap, activity] = await Promise.all([
-    serverFetch<DailyStats>("/api/stats/daily"),
-    serverFetch<ProgressStats>("/api/stats/progress"),
-    serverFetch<HeatmapEntry[]>("/api/stats/heatmap"),
-    serverFetch<ActivityEntry[]>("/api/stats/activity"),
-  ]);
+  const { userId } = await auth();
+  if (!userId) redirect("/sign-in");
+  const internalId = await getInternalUserId(userId);
+
+  const [daily, progress, { data: allProblems }, bookmarks] = await Promise.all(
+    [
+      getDailyStats(internalId),
+      getProgressStats(internalId),
+      getProblems({ pageSize: 75 }),
+      getBookmarks(internalId).catch(() => []),
+    ],
+  );
+
+  const topics = Array.from(new Set(allProblems.map((p) => p.topic))).sort();
+  const bookmarkedIds = new Set(bookmarks.map((b) => b.problem_id));
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
-      <DailyStatsCard stats={daily} />
-      <div className="grid md:grid-cols-2 gap-6">
-        <ProgressBars stats={progress} />
-        <RecentActivity activity={activity} />
-      </div>
-      <ActivityHeatmap data={heatmap} />
-    </div>
+    <Suspense>
+      <DashboardClient
+        daily={daily}
+        progress={progress}
+        problems={allProblems}
+        topics={topics}
+        bookmarkedIds={bookmarkedIds}
+      />
+    </Suspense>
   );
 }

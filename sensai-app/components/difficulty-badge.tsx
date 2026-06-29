@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 interface DifficultyBadgeProps {
@@ -6,19 +5,24 @@ interface DifficultyBadgeProps {
   className?: string;
 }
 
-export function DifficultyBadge({ difficulty, className }: DifficultyBadgeProps) {
+export function DifficultyBadge({
+  difficulty,
+  className,
+}: DifficultyBadgeProps) {
   return (
-    <Badge
-      variant="outline"
+    <span
       className={cn(
-        "font-medium",
-        difficulty === "Easy" && "border-green-500 text-green-600 dark:text-green-400",
-        difficulty === "Medium" && "border-yellow-500 text-yellow-600 dark:text-yellow-400",
-        difficulty === "Hard" && "border-red-500 text-red-600 dark:text-red-400",
+        "inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold shrink-0",
+        difficulty === "Easy" &&
+          "bg-emerald-500/15 text-emerald-400 dark:text-emerald-400",
+        difficulty === "Medium" &&
+          "bg-amber-500/15 text-amber-400 dark:text-amber-400",
+        difficulty === "Hard" &&
+          "bg-rose-500/15 text-rose-400 dark:text-rose-400",
         className,
       )}
     >
       {difficulty}
-    </Badge>
+    </span>
   );
 }

@@ -10,9 +10,21 @@ import {
 } from "@/components/ui/select";
 
 const TOPICS = [
-  "Arrays", "Strings", "Linked Lists", "Trees", "Graphs",
-  "Dynamic Programming", "Backtracking", "Binary Search",
-  "Sorting", "Hashing", "Heaps", "Tries", "Stack", "Queue", "Math",
+  "Arrays",
+  "Strings",
+  "Linked Lists",
+  "Trees",
+  "Graphs",
+  "Dynamic Programming",
+  "Backtracking",
+  "Binary Search",
+  "Sorting",
+  "Hashing",
+  "Heaps",
+  "Tries",
+  "Stack",
+  "Queue",
+  "Math",
 ];
 
 export function ProblemFilters() {
@@ -54,7 +66,9 @@ export function ProblemFilters() {
         <SelectContent>
           <SelectItem value="all">All Topics</SelectItem>
           {TOPICS.map((t) => (
-            <SelectItem key={t} value={t}>{t}</SelectItem>
+            <SelectItem key={t} value={t}>
+              {t}
+            </SelectItem>
           ))}
         </SelectContent>
       </Select>

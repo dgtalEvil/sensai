@@ -52,10 +52,7 @@ export function BookmarkButton({
       aria-label={bookmarked ? "Remove bookmark" : "Add bookmark"}
     >
       <Bookmark
-        className={cn(
-          "h-4 w-4",
-          bookmarked && "fill-current text-primary",
-        )}
+        className={cn("h-4 w-4", bookmarked && "fill-current text-primary")}
       />
     </Button>
   );

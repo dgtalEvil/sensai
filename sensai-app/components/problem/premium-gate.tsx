@@ -8,7 +8,8 @@ export function PremiumGate() {
         <Lock className="h-10 w-10 mx-auto text-yellow-600 dark:text-yellow-400" />
         <h3 className="font-semibold text-lg">Premium Problem</h3>
         <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-          This problem is only available to premium members. Upgrade to unlock all 75 problems and track your progress.
+          This problem is only available to premium members. Upgrade to unlock
+          all 75 problems and track your progress.
         </p>
       </CardContent>
     </Card>

@@ -9,7 +9,10 @@ export function DailyStatsCard({ stats }: DailyStatsCardProps) {
   const items = [
     { label: "Solved Today", value: stats.solved_today },
     { label: "Day Streak", value: `${stats.streak_days} 🔥` },
-    { label: "Total Solved", value: `${stats.total_solved}/${stats.total_problems}` },
+    {
+      label: "Total Solved",
+      value: `${stats.total_solved}/${stats.total_problems}`,
+    },
     { label: "Problems", value: stats.total_problems },
   ];
 

@@ -1,11 +1,15 @@
-import { serverFetch } from "@/lib/fetch";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { getInternalUserId } from "@/lib/auth";
+import { getBookmarks } from "@/lib/queries/getBookmarks";
 import { BookmarkList } from "@/components/bookmarks/bookmark-list";
-import type { Bookmark } from "@/types";
 
 export default async function BookmarksPage() {
-  const bookmarks = await serverFetch<Bookmark[]>("/api/bookmarks").catch(
-    () => [] as Bookmark[],
-  );
+  const { userId } = await auth();
+  if (!userId) redirect("/sign-in");
+  const internalId = await getInternalUserId(userId);
+
+  const bookmarks = await getBookmarks(internalId).catch(() => []);
 
   return (
     <div className="space-y-4">

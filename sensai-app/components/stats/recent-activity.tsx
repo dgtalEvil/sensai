@@ -20,9 +20,13 @@ export function RecentActivity({ activity }: RecentActivityProps) {
   if (activity.length === 0) {
     return (
       <Card>
-        <CardHeader><CardTitle className="text-base">Recent Activity</CardTitle></CardHeader>
+        <CardHeader>
+          <CardTitle className="text-base">Recent Activity</CardTitle>
+        </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">No activity yet. Start solving problems!</p>
+          <p className="text-sm text-muted-foreground">
+            No activity yet. Start solving problems!
+          </p>
         </CardContent>
       </Card>
     );
@@ -30,10 +34,15 @@ export function RecentActivity({ activity }: RecentActivityProps) {
 
   return (
     <Card>
-      <CardHeader><CardTitle className="text-base">Recent Activity</CardTitle></CardHeader>
+      <CardHeader>
+        <CardTitle className="text-base">Recent Activity</CardTitle>
+      </CardHeader>
       <CardContent className="space-y-3">
         {activity.slice(0, 10).map((entry) => (
-          <div key={`${entry.problem_id}-${entry.solved_at}`} className="flex items-center justify-between gap-2">
+          <div
+            key={`${entry.problem_id}-${entry.solved_at}`}
+            className="flex items-center justify-between gap-2"
+          >
             <Link
               href={`/problems/${entry.problem_id}`}
               className="text-sm font-medium hover:underline truncate"
@@ -42,7 +51,9 @@ export function RecentActivity({ activity }: RecentActivityProps) {
             </Link>
             <div className="flex items-center gap-2 shrink-0">
               <DifficultyBadge difficulty={entry.difficulty} />
-              <span className="text-xs text-muted-foreground">{timeAgo(entry.solved_at)}</span>
+              <span className="text-xs text-muted-foreground">
+                {timeAgo(entry.solved_at)}
+              </span>
             </div>
           </div>
         ))}

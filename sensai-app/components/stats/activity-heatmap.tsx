@@ -19,7 +19,9 @@ export function ActivityHeatmap({ data }: ActivityHeatmapProps) {
 
   return (
     <div>
-      <h3 className="text-sm font-medium text-muted-foreground mb-3">Activity (last 365 days)</h3>
+      <h3 className="text-sm font-medium text-muted-foreground mb-3">
+        Activity (last 365 days)
+      </h3>
       <div className="flex gap-1 overflow-x-auto pb-2">
         {weeks.map((week, wi) => (
           <div key={wi} className="flex flex-col gap-1">

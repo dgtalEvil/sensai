@@ -17,7 +17,10 @@ export function ProblemHeader({ problem, bookmarked }: ProblemHeaderProps) {
           <DifficultyBadge difficulty={problem.difficulty} />
           <Badge variant="secondary">{problem.topic}</Badge>
           {problem.is_premium && (
-            <Badge variant="outline" className="border-yellow-500 text-yellow-600 dark:text-yellow-400">
+            <Badge
+              variant="outline"
+              className="border-yellow-500 text-yellow-600 dark:text-yellow-400"
+            >
               ★ Premium
             </Badge>
           )}

@@ -9,7 +9,10 @@ interface SolveButtonProps {
   initialSolved?: boolean;
 }
 
-export function SolveButton({ problemId, initialSolved = false }: SolveButtonProps) {
+export function SolveButton({
+  problemId,
+  initialSolved = false,
+}: SolveButtonProps) {
   const [solved, setSolved] = useState(initialSolved);
   const [isPending, startTransition] = useTransition();
 
@@ -30,7 +33,11 @@ export function SolveButton({ problemId, initialSolved = false }: SolveButtonPro
 
   if (solved) {
     return (
-      <Button variant="outline" disabled className="gap-2 text-green-600 border-green-500">
+      <Button
+        variant="outline"
+        disabled
+        className="gap-2 text-green-600 border-green-500"
+      >
         <CheckCircle className="h-4 w-4" />
         Solved
       </Button>
